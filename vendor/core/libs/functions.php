@@ -4,13 +4,15 @@
  * дебаг
  * @param mixed $data данные
  * @param string|int $title заголовок
+ * @param bool $die
  */
-function debug($data = '', string $title = ''): void
+function debug($data = '', string $title = '', $die = false): void
 {
     echo "<mark>{$title}</mark>";
-    echo '<pre>';
-    print_r($data);
-    echo '</pre>';
+    echo '<pre>' . print_r($data, true) . '</pre>';
+    if ($die) {
+        die;
+    }
 }
 
 /**
@@ -31,7 +33,7 @@ function redirect($http = false): void
 }
 
 /**
- * htmlspecialchars
+ * htmlSpecialChars
  * @param string $str текст
  * @return string
  */

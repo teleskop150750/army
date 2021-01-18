@@ -66,6 +66,7 @@ class UserModel extends AppModel
         $password = !empty(trim($_POST['password'])) ? trim($_POST['password']) : null;
         /** @var object $user пользователь*/
         $user = null;
+
         // логин и пароль переданы?
         if ($login && $password) {
             // это админ?

@@ -80,6 +80,7 @@ class MenuWidget
     {
         $cache = Cache::getInstance();
         $this->menuHtml = $cache->get($this->cacheKey);
+
         if (!$this->menuHtml) {
             $this->data = App::$app->getProperty('cats');
 //            if (!$this->data) {
@@ -87,6 +88,7 @@ class MenuWidget
 //            }
             $this->tree = $this->getTree();
             $this->menuHtml = $this->getMenuHtml($this->tree);
+
             if ($this->cache) {
                 $cache->set($this->cacheKey, $this->menuHtml, $this->cache);
             }

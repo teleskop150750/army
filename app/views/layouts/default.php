@@ -90,7 +90,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <div class="menu-container">
                         <div class="menu">
                             <?php new app\widgets\menu\MenuWidget([
-                                'tpl' => WIDGETS . '/menu/menu_tpl/menu.php',
+                                 'tpl' => WIDGETS . '/menu/menu_tpl/menu.php',
                             ]); ?>
                         </div>
                     </div>

@@ -48,7 +48,7 @@ class CategoryModel extends AppModel
     }
 
     /**
-     * получить всего
+     * получить количество записей
      * @param string $ids id категорий
      * @param string $sql_part
      * @return int

@@ -1,3 +1,6 @@
+<?php
+/** @var array $category */
+?>
 <li>
     <a href="category/<?=$category['alias'] ?>">
         <?=$category['title'] ?>
