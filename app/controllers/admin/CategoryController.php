@@ -2,6 +2,12 @@
 
 namespace app\controllers\admin;
 
+use app\models\admin\CategoryModel;
+use app\models\admin\AppModel;
+use core\App;
+use core\exceptions\IdException;
+use RedBeanPHP\RedException\SQL;
+
 class CategoryController extends AppController
 {
     public function indexAction(): void
@@ -9,43 +15,61 @@ class CategoryController extends AppController
         $this->setMeta('Список категорий');
     }
 
-    public function deleteAction()
+    /**
+     * @throws IdException
+     */
+    public function deleteAction(): void
     {
+        $category_model = new CategoryModel();
+
         $id = $this->getRequestID();
-        $children = \R::count('category', 'parent_id = ?', [$id]);
+        $children = $category_model->getCountChildren($id);
         $errors = '';
+
+        // есть потомки?
         if ($children) {
             $errors .= '<li>Удаление невозможно, в категории есть вложенные категории</li>';
         }
-        $products = \R::count('product', 'category_id = ?', [$id]);
+
+        $products = $category_model->getCountProducts($id);
+
+        // есть продукты?
         if ($products) {
             $errors .= '<li>Удаление невозможно, в категории есть товары</li>';
         }
+
+        // ошибки есть?
         if ($errors) {
             $_SESSION['error'] = "<ul>$errors</ul>";
             redirect();
         }
-        $category = \R::load('category', $id);
-        \R::trash($category);
+
+        $category_model->deleteCategory($id);
         $_SESSION['success'] = 'Категория удалена';
         redirect();
     }
 
-    public function addAction()
+    /**
+     * @throws SQL
+     */
+    public function addAction(): void
     {
         if (!empty($_POST)) {
-            $category = new Category();
+            $category_model = new CategoryModel();
             $data = $_POST;
-            $category->load($data);
-            if (!$category->validate($data)) {
-                $category->getErrors();
+            $category_model->load($data);
+
+            // данные не валидны?
+            if (!$category_model->validate($data)) {
+                $category_model->getErrors();
                 redirect();
             }
-            if ($id = $category->save('category')) {
+
+            // записано в таблицу?
+            if ($id = $category_model->save('category')) {
                 $alias = AppModel::createAlias('category', 'alias', $data['title'], $id);
-                $cat = \R::load('category', $id);
-                $cat->alias = $alias;
-                \R::store($cat);
+
+                $category_model->setAlias($id, $alias);
                 $_SESSION['success'] = 'Категория добавлена';
             }
             redirect();
@@ -53,30 +77,39 @@ class CategoryController extends AppController
         $this->setMeta('Новая категория');
     }
 
-    public function editAction()
+    /**
+     * @throws IdException
+     * @throws SQL
+     */
+    public function editAction(): void
     {
+        $category_model = new CategoryModel();
         if (!empty($_POST)) {
             $id = $this->getRequestID(false);
-            $category = new Category();
             $data = $_POST;
-            $category->load($data);
-            if (!$category->validate($data)) {
-                $category->getErrors();
+            $category_model->load($data);
+
+            // данные не валидны?
+            if (!$category_model->validate($data)) {
+                $category_model->getErrors();
                 redirect();
             }
-            if ($category->update('category', $id)) {
+
+            // записано в таблицу?
+            if ($category_model->update('category', $id)) {
                 $alias = AppModel::createAlias('category', 'alias', $data['title'], $id);
-                $category = \R::load('category', $id);
-                $category->alias = $alias;
-                \R::store($category);
+
+                $category_model->setAlias($id, $alias);
                 $_SESSION['success'] = 'Изменения сохранены';
             }
             redirect();
         }
+
+        /** @var $id */
         $id = $this->getRequestID();
-        $category = \R::load('category', $id);
+        $category = $category_model->getCategory($id);
         App::$app->setProperty('parent_id', $category->parent_id);
         $this->setMeta("Редактирование категории {$category->title}");
-        $this->set(compact('category'));
+        $this->setData(compact('category'));
     }
 }

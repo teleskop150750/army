@@ -132,7 +132,6 @@ class Router
         }
         throw new RouteException('Не найден маршрут', 404);
     }
-
     /**
      * CamelCase
      * @param string $controller camel-case

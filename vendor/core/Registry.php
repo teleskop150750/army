@@ -2,8 +2,6 @@
 
 namespace core;
 
-use core\exceptions\ParameterException;
-
 /**
  * Class Реестр
  * @package core
@@ -35,15 +33,10 @@ class Registry
     {
         // существует такой параметр?
         if (isset(self::$properties[$name])) {
-            debug($this->getProperties());
-            debug($name);
-            debug(self::$properties[$name]);
             return self::$properties[$name];
         }
-        debug($this->getProperties());
-        debug($name, '', 1);
-        die();
-        throw new ParameterException('Дан неверный ключ');
+
+        return null;
     }
 
     /**

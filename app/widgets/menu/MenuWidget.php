@@ -5,52 +5,31 @@ namespace app\widgets\menu;
 use core\exceptions\ParameterException;
 use core\App;
 use core\Cache;
+use RedBeanPHP\R;
 
 class MenuWidget
 {
-    /**
-     * @var array|null массив категорий
-     */
+    /** @var array|null массив категорий  */
     protected ?array $data = [];
-    /**
-     * @var array дерево меню
-     */
+    /** @var array дерево меню */
     protected array $tree = [];
-    /**
-     * @var string HTML
-     */
+    /** @var string HTML */
     protected string $menuHtml = '';
-    /**
-     * @var string путь к шаблону
-     */
+    /** @var string путь к шаблону */
     protected string $tpl = '';
-    /**
-     * @var string контейнер
-     */
+    /** @var string контейнер */
     protected string $container = 'ul';
-    /**
-     * @var string класс css
-     */
+    /** @var string класс css */
     protected string $class = 'menu';
-    /**
-     * @var string таблица БД
-     */
+    /** @var string таблица БД */
     protected string $table = 'category';
-    /**
-     * @var int время кэширования
-     */
-    protected int $cache = 0;
-    /**
-     * @var string ключ кэша
-     */
+    /** @var int время кэширования */
+    protected int $cache = 3600;
+    /** @var string ключ кэша */
     protected string $cacheKey = 'site_menu';
-    /**
-     * @var array html атрибуты
-     */
+    /** @var array html атрибуты */
     protected array $attrs = [];
-    /**
-     * @var string перед меню
-     */
+    /** @var string перед меню */
     protected string $prepend = '';
 
     public function __construct($options = [])
@@ -81,11 +60,15 @@ class MenuWidget
         $cache = Cache::getInstance();
         $this->menuHtml = $cache->get($this->cacheKey);
 
+        // нет закэшированного меню?
         if (!$this->menuHtml) {
             $this->data = App::$app->getProperty('cats');
-//            if (!$this->data) {
-//                $this->data = R::getAssoc("SELECT * FROM {$this->table}");
-//            }
+
+            // нет категоий в свойствах?
+            if (!$this->data) {
+                $this->data = R::getAssoc("SELECT * FROM {$this->table}");
+            }
+
             $this->tree = $this->getTree();
             $this->menuHtml = $this->getMenuHtml($this->tree);
 

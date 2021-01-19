@@ -16,7 +16,7 @@
             <div class="box">
                 <div class="box-body">
                     <?php new app\widgets\menu\MenuWidget([
-                        'tpl' => WIDGETS . '/menu_tpl/category_admin.php',
+                        'tpl' => WIDGETS . '/menu/menu_tpl/category_admin.php',
                         'container' => 'div',
                         'cache' => 0,
                         'cacheKey' => 'admin_cat',

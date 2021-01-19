@@ -5,7 +5,7 @@ namespace app\models;
 use core\App;
 use core\exceptions\ParameterException;
 
-class BreadcrumbsModel
+class BreadcrumbsModel extends AppModel
 {
     /**
      * получить хлебные крошки

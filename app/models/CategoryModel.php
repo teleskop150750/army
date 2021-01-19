@@ -10,7 +10,6 @@ use RedBeanPHP\R;
 
 class CategoryModel extends AppModel
 {
-
     /**
      * получить текущуюю категорию
      * @param string $alias

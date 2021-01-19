@@ -19,7 +19,7 @@ abstract class Model
     }
 
     /**
-     * загрузить
+     * загрузить данные для проверки
      * @param $data
      */
     public function load(array $data): void
@@ -49,9 +49,9 @@ abstract class Model
     }
 
     /**
-     * создать пользователя
-     * @param string $table
-     * @return int|string
+     * сохранить данные
+     * @param string $table таблица
+     * @return int|string id созданной записи
      * @throws SQLAlias
      */
     public function save(string $table)
@@ -61,6 +61,24 @@ abstract class Model
             $tbl->$name = $value;
         }
         return R::store($tbl);
+    }
+
+    /**
+     * обновить запись
+     * @param string $table таблица
+     * @param int $id id записи
+     * @return int|string id измененной записи
+     * @throws SQLAlias
+     */
+    public function update(string $table, int $id)
+    {
+        $bean = R::load($table, $id);
+
+        foreach ($this->attributes as $name => $value) {
+            $bean->$name = $value;
+        }
+
+        return R::store($bean);
     }
 
 

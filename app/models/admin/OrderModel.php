@@ -2,7 +2,6 @@
 
 namespace app\models\admin;
 
-use app\models\AppModel;
 use core\exceptions\OrderException;
 use RedBeanPHP\R;
 use RedBeanPHP\RedException\SQL;
