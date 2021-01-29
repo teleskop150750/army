@@ -10,12 +10,25 @@ class FilterWidget
     // группы гатегорий
     public ?array $groups;
     public ?array $attrs;
-    public string $tpl;
+    public string $tpl = WIDGETS . '/filter/filter_tpl/filter.php';
 
-    public function __construct()
+    public function __construct($options = [])
     {
-        $this->tpl = __DIR__ . '/filter_tpl.php';
+        $this->setOptions($options);
         $this->run();
+    }
+
+    /**
+     * задать параметры
+     * @param $options
+     */
+    protected function setOptions($options): void
+    {
+        foreach ($options as $option => $value) {
+            if (property_exists($this, $option)) {
+                $this->$option = $value;
+            }
+        }
     }
 
     protected function run(): void

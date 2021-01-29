@@ -3,7 +3,6 @@
 namespace app\models;
 
 use core\App;
-use core\exceptions\ParameterException;
 
 class BreadcrumbsModel extends AppModel
 {
@@ -12,7 +11,6 @@ class BreadcrumbsModel extends AppModel
      * @param int $category_id id категории
      * @param string $name название продукта
      * @return string HTML крошек
-     * @throws ParameterException
      */
     public static function getBreadcrumbs(int $category_id, string $name = ''): string
     {

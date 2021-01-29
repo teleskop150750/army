@@ -2,9 +2,8 @@
 
 namespace app\models;
 
-use core\base\Model;
+use app\models\base\AppBaseModel;
 
-class AppModel extends Model
+class AppModel extends AppBaseModel
 {
-
 }

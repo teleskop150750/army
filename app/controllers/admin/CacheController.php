@@ -4,7 +4,7 @@ namespace app\controllers\admin;
 
 use core\Cache;
 
-class CacheController extends AppController
+class CacheController extends AdminController
 {
     public function indexAction(): void
     {
@@ -14,6 +14,7 @@ class CacheController extends AppController
     public function deleteAction(): void
     {
         $key = $_GET['key'] ?? null;
+        /** @var Cache $cache */
         $cache = Cache::getInstance();
 
         switch ($key) {

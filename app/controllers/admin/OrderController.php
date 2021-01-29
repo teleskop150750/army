@@ -8,7 +8,7 @@ use core\exceptions\OrderException;
 use core\libs\Pagination;
 use RedBeanPHP\RedException\SQL;
 
-class OrderController extends AppController
+class OrderController extends AdminController
 {
     public function indexAction(): void
     {

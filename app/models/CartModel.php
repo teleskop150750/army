@@ -4,7 +4,6 @@ namespace app\models;
 
 use core\App;
 use core\exceptions\ParameterException;
-use RedBeanPHP\OODBBean;
 use RedBeanPHP\R;
 
 class CartModel extends AppModel

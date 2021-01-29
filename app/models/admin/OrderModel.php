@@ -2,11 +2,12 @@
 
 namespace app\models\admin;
 
+use app\models\base\AppBaseModel;
 use core\exceptions\OrderException;
 use RedBeanPHP\R;
 use RedBeanPHP\RedException\SQL;
 
-class OrderModel extends AppModel
+class OrderModel extends AdminModel
 {
     /**
      * получить количество записей
@@ -19,9 +20,9 @@ class OrderModel extends AppModel
 
     /**
      * получить заказы
-     * @param int $start
-     * @param int $perPage
-     * @return array|null
+     * @param int $start страница
+     * @param int $perPage количетво на странице
+     * @return array|null заказы
      */
     public function getOrders(int $start, int $perPage): ?array
     {

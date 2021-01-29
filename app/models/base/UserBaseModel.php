@@ -5,12 +5,11 @@ namespace app\models\base;
 
 use RedBeanPHP\R;
 
-class UserBaseBaseModel extends AppBaseModel
+class UserBaseModel extends AppBaseModel
 {
     public array $attributes = [];
 
     public array $rules = [];
-
 
     public function login($isAdmin = false): bool
     {
@@ -41,10 +40,7 @@ class UserBaseBaseModel extends AppBaseModel
         return false;
     }
 
-    /**
-     * проверить на админа
-     * @return bool
-     */
+
     public static function isAdmin(): bool
     {
         return (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin');

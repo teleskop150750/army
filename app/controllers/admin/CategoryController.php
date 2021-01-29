@@ -2,13 +2,14 @@
 
 namespace app\controllers\admin;
 
+use app\models\admin\AdminModel;
 use app\models\admin\CategoryModel;
 use app\models\admin\AppModel;
 use core\App;
 use core\exceptions\IdException;
 use RedBeanPHP\RedException\SQL;
 
-class CategoryController extends AppController
+class CategoryController extends AdminController
 {
     public function indexAction(): void
     {
@@ -67,7 +68,7 @@ class CategoryController extends AppController
 
             // записано в таблицу?
             if ($id = $category_model->save('category')) {
-                $alias = AppModel::createAlias('category', 'alias', $data['title'], $id);
+                $alias = AdminModel::createAlias('category', 'alias', $data['title'], $id);
 
                 $category_model->setAlias($id, $alias);
                 $_SESSION['success'] = 'Категория добавлена';
@@ -97,7 +98,7 @@ class CategoryController extends AppController
 
             // записано в таблицу?
             if ($category_model->update('category', $id)) {
-                $alias = AppModel::createAlias('category', 'alias', $data['title'], $id);
+                $alias = AdminModel::createAlias('category', 'alias', $data['title'], $id);
 
                 $category_model->setAlias($id, $alias);
                 $_SESSION['success'] = 'Изменения сохранены';

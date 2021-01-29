@@ -2,9 +2,10 @@
 
 namespace app\models\admin;
 
+use app\models\base\AppBaseModel;
 use RedBeanPHP\R;
 
-class MainModel extends AppModel
+class MainModel extends AdminModel
 {
 
     /**

@@ -61,9 +61,9 @@ class CategoryModel extends AppModel
      * получить товары на странице
      * @param string $ids id категорий
      * @param string $sql_part
-     * @param int $start
-     * @param int $perPage
-     * @return array
+     * @param int $start страница
+     * @param int $perPage количество на странице
+     * @return array товары
      */
     public function getProducts(string $ids, string $sql_part, int $start, int $perPage): array
     {

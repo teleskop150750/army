@@ -4,7 +4,7 @@ namespace app\controllers\admin;
 
 use app\models\admin\MainModel;
 
-class MainController extends AppController
+class MainController extends AdminController
 {
     public function indexAction(): void
     {

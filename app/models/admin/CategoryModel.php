@@ -2,10 +2,11 @@
 
 namespace app\models\admin;
 
+use app\models\base\AppBaseModel;
 use RedBeanPHP\R;
 use RedBeanPHP\RedException\SQL;
 
-class CategoryModel extends AppModel
+class CategoryModel extends AdminModel
 {
     public array $attributes = [
         'title' => '',

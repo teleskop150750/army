@@ -16,7 +16,7 @@ class MenuWidget
     /** @var string HTML */
     protected string $menuHtml = '';
     /** @var string путь к шаблону */
-    protected string $tpl = '';
+    protected string $tpl = WIDGETS . '/menu_tpl/menu.php';
     /** @var string контейнер */
     protected string $container = 'ul';
     /** @var string класс css */
@@ -34,7 +34,6 @@ class MenuWidget
 
     public function __construct($options = [])
     {
-        $this->tpl = WIDGETS . '/menu_tpl/menu.php';
         $this->setOptions($options);
         $this->run();
     }

@@ -2,9 +2,10 @@
 
 namespace app\models;
 
+use app\models\base\UserBaseModel;
 use RedBeanPHP\R;
 
-class UserModel extends AppModel
+class UserModel extends UserBaseModel
 {
 
     public array $attributes = [
@@ -13,6 +14,7 @@ class UserModel extends AppModel
         'name' => '',
         'email' => '',
         'address' => '',
+        'role' => 'user',
     ];
 
     public array $rules = [
@@ -41,7 +43,7 @@ class UserModel extends AppModel
     }
 
     /**
-     * проверить на уеикальность
+     * проверить на уникальность
      * @return bool
      */
     public function checkUnique(): bool
@@ -58,40 +60,5 @@ class UserModel extends AppModel
             return false;
         }
         return true;
-    }
-
-    public function login($isAdmin = false): bool
-    {
-        $login = !empty(trim($_POST['login'])) ? trim($_POST['login']) : null;
-        $password = !empty(trim($_POST['password'])) ? trim($_POST['password']) : null;
-        /** @var object $user пользователь*/
-        $user = null;
-
-        // логин и пароль переданы?
-        if ($login && $password) {
-            // это админ?
-            if ($isAdmin) {
-                $user = R::findOne('user', "login = ? AND role = 'admin'", [$login]);
-            } else {
-                $user = R::findOne('user', "login = ?", [$login]);
-            }
-            
-            // пользователь существует и пароль подходит?
-            if ($user && password_verify($password, $user->password)) {
-                foreach ($user as $k => $v) {
-                    if ($k !== 'password') {
-                        $_SESSION['user'][$k] = $v;
-                    }
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    public static function isAdmin(): bool
-    {
-        return (isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin');
     }
 }
