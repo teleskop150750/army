@@ -25,6 +25,6 @@ class SearchModel extends AppModel
      */
     public function getProducts(string $query, int $start, int $perPage): array
     {
-        return R::find('product', "title LIKE ? LIMIT $start, $perPage", ["%{$query}%"]);
+        return R::find('product', "title LIKE ? AND status = '1' LIMIT $start, $perPage", ["%{$query}%"]);
     }
 }

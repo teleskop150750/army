@@ -15,14 +15,14 @@ $('.del-item').on('click', function () {
         src = $this.data('src');
     $.ajax({
         url: adminpath + '/product/delete-gallery',
-        data: { id: id, src: src },
+        data: {id: id, src: src},
         type: 'POST',
         beforeSend: function () {
-            $this.closest('.file-upload').find('.overlay').css({ 'display': 'block' });
+            $this.closest('.file-upload').find('.overlay').css({'display': 'block'});
         },
         success: function (res) {
             setTimeout(function () {
-                $this.closest('.file-upload').find('.overlay').css({ 'display': 'none' });
+                $this.closest('.file-upload').find('.overlay').css({'display': 'none'});
                 if (res == 1) {
                     $this.fadeOut();
                 }
@@ -30,7 +30,7 @@ $('.del-item').on('click', function () {
         },
         error: function () {
             setTimeout(function () {
-                $this.closest('.file-upload').find('.overlay').css({ 'display': 'none' });
+                $this.closest('.file-upload').find('.overlay').css({'display': 'none'});
                 alert('Ошибка');
             }, 1000);
         }
@@ -85,19 +85,19 @@ if ($('div').is('#single')) {
 if (buttonSingle) {
     new AjaxUpload(buttonSingle, {
         action: adminpath + buttonSingle.data('url') + "?upload=1",
-        data: { name: buttonSingle.data('name') },
+        data: {name: buttonSingle.data('name')},
         name: buttonSingle.data('name'),
         onSubmit: function (file, ext) {
             if (!(ext && /^(jpg|png|jpeg|gif)$/i.test(ext))) {
                 alert('Ошибка! Разрешены только картинки');
                 return false;
             }
-            buttonSingle.closest('.file-upload').find('.overlay').css({ 'display': 'block' });
+            buttonSingle.closest('.file-upload').find('.overlay').css({'display': 'block'});
 
         },
         onComplete: function (file, response) {
             setTimeout(function () {
-                buttonSingle.closest('.file-upload').find('.overlay').css({ 'display': 'none' });
+                buttonSingle.closest('.file-upload').find('.overlay').css({'display': 'none'});
 
                 response = JSON.parse(response);
                 $('.' + buttonSingle.data('name')).html('<img src="/images/' + response.file + '" style="max-height: 150px;">');
@@ -109,19 +109,19 @@ if (buttonSingle) {
 if (buttonMulti) {
     new AjaxUpload(buttonMulti, {
         action: adminpath + buttonMulti.data('url') + "?upload=1",
-        data: { name: buttonMulti.data('name') },
+        data: {name: buttonMulti.data('name')},
         name: buttonMulti.data('name'),
         onSubmit: function (file, ext) {
             if (!(ext && /^(jpg|png|jpeg|gif)$/i.test(ext))) {
                 alert('Ошибка! Разрешены только картинки');
                 return false;
             }
-            buttonMulti.closest('.file-upload').find('.overlay').css({ 'display': 'block' });
+            buttonMulti.closest('.file-upload').find('.overlay').css({'display': 'block'});
 
         },
         onComplete: function (file, response) {
             setTimeout(function () {
-                buttonMulti.closest('.file-upload').find('.overlay').css({ 'display': 'none' });
+                buttonMulti.closest('.file-upload').find('.overlay').css({'display': 'none'});
 
                 response = JSON.parse(response);
                 $('.' + buttonMulti.data('name')).append('<img src="/images/' + response.file + '" style="max-height: 150px;">');
@@ -137,7 +137,6 @@ $('#add').on('submit', function () {
     }
 });
 
-function isNumeric(n)
-{
+function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }

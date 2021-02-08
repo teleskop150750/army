@@ -7,28 +7,17 @@ use core\Cache;
 
 class FilterWidget
 {
-    // группы гатегорий
+    /** @var array|null группы гатегорий*/
     public ?array $groups;
     public ?array $attrs;
-    public string $tpl = WIDGETS . '/filter/filter_tpl/filter.php';
+    public string $tpl;
+    public ?array $filter;
 
-    public function __construct($options = [])
+    public function __construct($filter = null, $tpl = '')
     {
-        $this->setOptions($options);
+        $this->filter = $filter;
+        $this->tpl = $tpl ?: WIDGETS . '/filter/filter_tpl/filter.php';
         $this->run();
-    }
-
-    /**
-     * задать параметры
-     * @param $options
-     */
-    protected function setOptions($options): void
-    {
-        foreach ($options as $option => $value) {
-            if (property_exists($this, $option)) {
-                $this->$option = $value;
-            }
-        }
     }
 
     protected function run(): void

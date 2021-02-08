@@ -13,10 +13,10 @@ class CategoryModel extends AppModel
     /**
      * получить текущуюю категорию
      * @param string $alias
-     * @return OODBBean
+     * @return object
      * @throws CategoryException
      */
-    public function getCategory(string $alias): OODBBean
+    public function getCategory(string $alias): object
     {
         $category = R::findOne('category', 'alias = ?', [$alias]);
         if (!$category) {
@@ -67,6 +67,6 @@ class CategoryModel extends AppModel
      */
     public function getProducts(string $ids, string $sql_part, int $start, int $perPage): array
     {
-        return R::find('product', "category_id IN ($ids) $sql_part LIMIT $start, $perPage");
+        return R::find('product', "category_id IN ($ids) $sql_part  AND status = '1' LIMIT $start, $perPage");
     }
 }

@@ -1,12 +1,17 @@
+<?php
+/** @var object $product */
+/** @var array $filter */
+?>
+
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Новый товар
+        Редактирование товара <?= $product->title ?>
     </h1>
     <ol class="breadcrumb">
-        <li><a href="<?= ADMIN; ?>"><i class="fa fa-dashboard"></i> Главная</a></li>
-        <li><a href="<?= ADMIN; ?>/product">Список товаров</a></li>
-        <li class="active">Новый товар</li>
+        <li><a href="<?= ADMIN ?>"><i class="fa fa-dashboard"></i> Главная</a></li>
+        <li><a href="<?= ADMIN ?>/product">Список товаров</a></li>
+        <li class="active">Редактирование</li>
     </ol>
 </section>
 
@@ -15,20 +20,18 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box">
-                <form action="<?= ADMIN; ?>/product/add" method="post" data-toggle="validator" id="add">
+                <form action="<?= ADMIN ?>/product/edit" method="post" data-toggle="validator" id="add">
                     <div class="box-body">
                         <div class="form-group has-feedback">
                             <label for="title">Наименование товара</label>
                             <input type="text" name="title" class="form-control" id="title"
-                                   placeholder="Наименование товара"
-                                   value="<?php isset($_SESSION['form_data']['title']) ? h($_SESSION['form_data']['title']) : null; ?>"
-                                   required>
+                                   placeholder="Наименование товара" value="<?= h($product->title) ?>" required>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         </div>
 
                         <div class="form-group">
                             <label for="category_id">Родительская категория</label>
-                            <?php new \app\widgets\menu\MenuWidget([
+                            <?php new app\widgets\menu\MenuWidget([
                                 'tpl' => WIDGETS . '/menu/menu_tpl/select.php',
                                 'container' => 'select',
                                 'cache' => 0,
@@ -38,67 +41,69 @@
                                     'name' => 'category_id',
                                     'id' => 'category_id',
                                 ],
-                                'prepend' => '<option>Выберите категорию</option>',
                             ]) ?>
                         </div>
 
                         <div class="form-group">
                             <label for="keywords">Ключевые слова</label>
                             <input type="text" name="keywords" class="form-control" id="keywords"
-                                   placeholder="Ключевые слова"
-                                   value="<?php isset($_SESSION['form_data']['keywords']) ? h($_SESSION['form_data']['keywords']) : null; ?>">
+                                   placeholder="Ключевые слова" value="<?= h($product->keywords) ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="description">Описание</label>
                             <input type="text" name="description" class="form-control" id="description"
-                                   placeholder="Описание"
-                                   value="<?php isset($_SESSION['form_data']['description']) ? h($_SESSION['form_data']['description']) : null; ?>">
+                                   placeholder="Описание" value="<?= h($product->description) ?>">
                         </div>
 
                         <div class="form-group has-feedback">
                             <label for="price">Цена</label>
                             <input type="text" name="price" class="form-control" id="description" placeholder="Цена"
-                                   pattern="^[0-9.]{1,}$"
-                                   value="<?php isset($_SESSION['form_data']['price']) ? h($_SESSION['form_data']['price']) : null; ?>"
-                                   required data-error="Допускаются цифры и десятичная точка">
-                            <div class="help-block with-errors"></div>
-                        </div>
-
-                        <div class="form-group has-feedback">
-                            <label for="old_price">Цена</label>
-                            <input type="text" name="old_price" class="form-control" id="description"
-                                   placeholder="Старая цена" pattern="^[0-9.]{1,}$"
-                                   value="<?php isset($_SESSION['form_data']['old_price']) ? h($_SESSION['form_data']['old_price']) : null; ?>"
+                                   pattern="^[0-9.]{1,}$" value="<?= $product->price ?>" required
                                    data-error="Допускаются цифры и десятичная точка">
                             <div class="help-block with-errors"></div>
                         </div>
 
                         <div class="form-group has-feedback">
-                            <label for="content">Контент</label>
+                            <label for="old_price">Старая цена</label>
+                            <input type="text" name="old_price" class="form-control" id="description"
+                                   placeholder="Старая цена" pattern="^[0-9.]{1,}$" value="<?= $product->old_price ?>"
+                                   data-error="Допускаются цифры и десятичная точка">
+                            <div class="help-block with-errors"></div>
+                        </div>
+
+                        <div class="form-group has-feedback">
+                            <label for="editor1">Контент</label>
                             <textarea name="content" id="editor1" cols="80"
-                                      rows="10"><?php $_SESSION['form_data']['old_price'] ?? null; ?></textarea>
+                                      rows="10"><?= $product->content ?></textarea>
                         </div>
 
                         <div class="form-group">
                             <label>
-                                <input type="checkbox" name="status" checked> Статус
+                                <input type="checkbox" name="status" <?= $product->status ? ' checked' : null ?>>
+                                Статус
                             </label>
                         </div>
 
                         <div class="form-group">
                             <label>
-                                <input type="checkbox" name="hit"> Хит
+                                <input type="checkbox" name="hit" <?= $product->hit ? ' checked' : null ?>> Хит
                             </label>
                         </div>
 
                         <div class="form-group">
                             <label for="related">Связанные товары</label>
-                            <select name="related[]" class="form-control select2" id="related" multiple></select>
+                            <select name="related[]" class="form-control select2" id="related" multiple>
+                                <?php if (!empty($related_product)) : ?>
+                                    <?php foreach ($related_product as $item) : ?>
+                                        <option value="<?= $item['related_id'] ?>"
+                                                selected><?= $item['title'] ?></option>
+                                    <?php endforeach; ?>
+                                <?php endif; ?>
+                            </select>
                         </div>
 
-                        <?php new \app\widgets\filter\FilterWidget(null, WIDGETS . '/filter/filter_tpl/admin_filter.php'); ?>
-
+                        <?php new app\widgets\filter\FilterWidget($filter, WIDGETS . '/filter/filter_tpl/admin_filter.php'); ?>
                         <div class="form-group">
                             <div class="col-md-4">
                                 <div class="box box-danger box-solid file-upload">
@@ -110,7 +115,9 @@
                                              data-name="single">Выбрать файл
                                         </div>
                                         <p><small>Рекомендуемые размеры: 125х200</small></p>
-                                        <div class="single"></div>
+                                        <div class="single">
+                                            <img src="/images/<?= $product->img ?>" alt="" style="max-height: 150px;">
+                                        </div>
                                     </div>
                                     <div class="overlay">
                                         <i class="fa fa-refresh fa-spin"></i>
@@ -127,7 +134,16 @@
                                              data-name="multi">Выбрать файл
                                         </div>
                                         <p><small>Рекомендуемые размеры: 700х1000</small></p>
-                                        <div class="multi"></div>
+                                        <div class="multi">
+                                            <?php if (!empty($gallery)) : ?>
+                                                <?php foreach ($gallery as $item) : ?>
+                                                    <img src="/images/<?= $item ?>" alt=""
+                                                         style="max-height: 150px; cursor: pointer;"
+                                                         data-id="<?= $product->id ?>" data-src="<?= $item ?>"
+                                                         class="del-item">
+                                                <?php endforeach; ?>
+                                            <?php endif; ?>
+                                        </div>
                                     </div>
                                     <div class="overlay">
                                         <i class="fa fa-refresh fa-spin"></i>
@@ -138,10 +154,10 @@
 
                     </div>
                     <div class="box-footer">
-                        <button type="submit" class="btn btn-success">Добавить</button>
+                        <input type="hidden" name="id" value="<?= $product->id ?>">
+                        <button type="submit" class="btn btn-success">Сохранить</button>
                     </div>
                 </form>
-                <?php if (isset($_SESSION['form_data'])) unset($_SESSION['form_data']); ?>
             </div>
         </div>
     </div>

@@ -9,4 +9,8 @@ return [
     'smtp_protocol' => 'ssl',
     'smtp_login' => 'teleskop150750@gmail.com',
     'smtp_password' => '1234aAsS',
+    'img_width' => 125,
+    'img_height' => 200,
+    'gallery_width' => 700,
+    'gallery_height' => 1000,
 ];

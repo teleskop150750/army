@@ -28,7 +28,7 @@ class CategoryController extends AppController
 
         // крошки
         $breadcrumbs = BreadcrumbsModel::getBreadcrumbs($category->id);
-        // id категорий
+        // id вложенных категорий
         $ids = $cat_model->getIds($category->id);
         $ids = !$ids ? $category->id : $ids . $category->id;
 
