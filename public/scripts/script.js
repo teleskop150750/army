@@ -1,5 +1,5 @@
 const navLinks = document.querySelectorAll('.nav__link');
-if (navLinks) {
+if (navLinks.length !== 0) {
     navLinks.forEach((link) => {
         if (link.href === location.href) {
             link.classList.add('nav__link--active');
@@ -9,8 +9,15 @@ if (navLinks) {
 
 
 const categories = document.querySelectorAll('.category__link');
-if (categories) {
+if (categories.length !== 0) {
+    const catTitle = document.querySelector('.section-aside__title').dataset.id;
+
     categories.forEach((category) => {
+        const categoryId = category.dataset.id;
+        if (categoryId === catTitle) {
+            category.classList.add('category__link--active');
+        }
+
         category.addEventListener('click', async function (e) {
             e.preventDefault();
 
@@ -21,7 +28,8 @@ if (categories) {
                 categories.forEach((item) => {
                     item.classList.remove('category__link--active');
                 });
-                const category = this.dataset.alias;
+                const categoryId = this.dataset.id;
+
                 this.classList.add('category__link--active');
 
                 formData.append('category', categoryId);
@@ -48,44 +56,46 @@ if (categories) {
     })
 }
 
-const pageBody = document.querySelector('.page__body');
-pageBody.addEventListener('click', async function (e) {
-    if (e.target.classList.contains('pagination__button')
-        && !e.target.classList.contains('pagination__button--active')
-    ) {
-        const button = e.target;
-        const page = button.dataset.page;
+const pageBody = document.querySelector('.main__container');
+if (pageBody) {
+    pageBody.addEventListener('click', async function (e) {
+        if (e.target.classList.contains('pagination__button')
+            && !e.target.classList.contains('pagination__button--active')
+        ) {
+            const button = e.target;
+            const page = button.dataset.page;
 
-        let formData = new FormData();
-        formData.append('page', page);
-        const category = pageBody.querySelector('.category__link--active');
-        if (category) {
-            const categoryId = category.dataset.id;
-            formData.append('category', categoryId);
+            let formData = new FormData();
+            formData.append('page', page);
+            const category = pageBody.querySelector('.category__link--active');
+            if (category) {
+                const categoryId = category.dataset.id;
+                formData.append('category', categoryId);
+            }
+
+            let url = location.origin + '/news/page';
+
+            const response = await fetch(url, {
+                method: 'POST',
+                body: formData,
+            });
+            const result = await response.text();
+            const mainInner = pageBody.querySelector('.main__inner');
+            mainInner.innerHTML = result;
+            url = location.href.replace(/page(.+?)(&|$)/g, '');
+            let newURL = url + (location.search ? "&" : "?") + "page=" + page;
+            newURL = newURL.replace('&&', '&');
+            newURL = newURL.replace('?&', '?');
+            history.replaceState({}, '', newURL);
         }
-
-        let url = location.origin + '/news/page';
-
-        const response = await fetch(url, {
-            method: 'POST',
-            body: formData,
-        });
-        const result = await response.text();
-        const mainInner = pageBody.querySelector('.main__inner');
-        mainInner.innerHTML = result;
-        url = location.href.replace(/page(.+?)(&|$)/g, '');
-        let newURL = url + (location.search ? "&" : "?") + "page=" + page;
-        newURL = newURL.replace('&&', '&');
-        newURL = newURL.replace('?&', '?');
-        history.replaceState({}, '', newURL);
-    }
-});
+    });
+}
 
 const imgSelectButton = document.querySelector('.form__img-select');
 if (imgSelectButton) {
     new AjaxUpload(imgSelectButton, {
         action: location.origin + '/' + imgSelectButton.dataset.url + "?upload=1",
-        data: {name: imgSelectButton.dataset.name},
+        data: { name: imgSelectButton.dataset.name },
         name: imgSelectButton.dataset.name,
         onSubmit: function (file, ext) {
             if (!(ext && /^(jpg|png|jpeg|gif)$/i.test(ext))) {

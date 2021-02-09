@@ -58,11 +58,11 @@
     </main>
     <aside class="aside main__aside">
         <section class="section-aside aside__section">
-            <h2 class="section-aside__title">Категории</h2>
+            <h2 class="section-aside__title" data-id="<?= $_GET['category'] ?? 'no' ?>">Категории</h2>
             <ul class="category__list">
                 <?php foreach ($categories as $category) : ?>
                     <li class="category__item">
-                        <a class="category__link" href="/news/<?= $category['alias'] ?>"
+                        <a class="category__link" href="/news?category=<?= $category['id'] ?>"
                            data-id="<?= $category['id'] ?>">
                             <?= $category['title'] ?>
                         </a>
