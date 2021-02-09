@@ -1,7 +1,5 @@
 <?php
-
-/** @var int $countNewOrders */
-/** @var int $countProducts */
+/** @var int $countArticles */
 /** @var int $countUsers */
 /** @var int $countCategories */
 ?>
@@ -19,34 +17,16 @@
 <section class="content">
     <!-- Small boxes (Stat box) -->
     <div class="row">
-        <div class="col-lg-3 col-xs-6">
-            <!-- small box -->
-            <div class="small-box bg-aqua">
-                <div class="inner">
-                    <h3><?= $countNewOrders ?></h3>
-                    <p>Новые заказы</p>
-                </div>
-                <div class="icon">
-                    <i class="ion ion-bag"></i>
-                </div>
-                <a href="<?= ADMIN ?>/order" class="small-box-footer">
-                    Все заказы <i class="fa fa-arrow-circle-right"></i>
-                </a>
-            </div>
-        </div>
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
             <!-- small box -->
             <div class="small-box bg-green">
                 <div class="inner">
-                    <h3><?= $countProducts ?></h3>
-                    <p>Product</p>
+                    <h3><?= $countArticles ?></h3>
+                    <p>Статьи</p>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-stats-bars"></i>
-                </div>
-                <a href="<?= ADMIN ?>/product" class="small-box-footer">
-                    More info <i class="fa fa-arrow-circle-right"></i>
+                <a href="<?= ADMIN ?>/article" class="small-box-footer">
+                    Больше информации
                 </a>
             </div>
         </div>
@@ -58,11 +38,8 @@
                     <h3><?= $countUsers ?></h3>
                     <p>Пользователи</p>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-person-add"></i>
-                </div>
-                <a href="<?= ADMIN ?>/user" class="small-box-footer">
-                    Пользователи <i class="fa fa-arrow-circle-right"></i>
+                <a href="<?= ADMIN ?>/category" class="small-box-footer">
+                    Больше информации
                 </a>
             </div>
         </div>
@@ -74,11 +51,8 @@
                     <h3><?= $countCategories ?></h3>
                     <p>Категории</p>
                 </div>
-                <div class="icon">
-                    <i class="ion ion-pie-graph"></i>
-                </div>
                 <a href="<?= ADMIN ?>/category" class="small-box-footer">
-                    Категории <i class="fa fa-arrow-circle-right"></i>
+                    Больше информации
                 </a>
             </div>
         </div>

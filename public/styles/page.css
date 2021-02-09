@@ -25,4 +25,25 @@
 
 .main__container--index {
   width: 100%;
+  height: 100%;
+}
+.page__body {
+}
+
+.main__inner--index {
+  background-image: url('/img/index_bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: right bottom;
+  height: 100%;
+}
+
+.main-index__title {
+  font-size: 3em;
+  color: var(--color-white);
+}
+
+.main-index__subtitle {
+  font-size: 2em;
+  color: var(--color-white);
 }

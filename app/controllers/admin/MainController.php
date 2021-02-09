@@ -9,12 +9,11 @@ class MainController extends AdminController
     public function indexAction(): void
     {
         $main_model = new MainModel();
-        $countNewOrders = $main_model->getCountNewOrders();
+        $countArticles = $main_model->getCountArticles();
         $countUsers = $main_model->getCountUsers();
-        $countProducts = $main_model->getCountProducts();
         $countCategories = $main_model->getCountCategories();
 
         $this->setMeta('Панель управления');
-        $this->setData(compact('countNewOrders', 'countCategories', 'countProducts', 'countUsers'));
+        $this->setData(compact('countArticles', 'countUsers', 'countCategories'));
     }
 }

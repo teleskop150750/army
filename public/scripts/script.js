@@ -21,7 +21,7 @@ if (categories) {
                 categories.forEach((item) => {
                     item.classList.remove('category__link--active');
                 });
-                const categoryId = this.dataset.id;
+                const category = this.dataset.alias;
                 this.classList.add('category__link--active');
 
                 formData.append('category', categoryId);

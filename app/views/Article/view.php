@@ -79,10 +79,10 @@
                         </div>
                         <footer class="comment__footer">
                             <?php if (!empty($_SESSION['user'])) : ?>
-                                <?php if ($comment['user_id'] === $_SESSION['user']['id']) : ?>
+                                <?php if ((int)$comment['user_id'] === (int)$_SESSION['user']['id']) : ?>
                                     <button class="comment__button comment__editor">редактировать</button>
                                 <?php endif; ?>
-                                <?php if ($comment['user_id'] === $_SESSION['user']['id'] || $_SESSION['user']['role'] === 'admin') : ?>
+                                <?php if ((int)$comment['user_id'] === (int)$_SESSION['user']['id'] || $_SESSION['user']['role'] === 'admin') : ?>
                                     <button class="comment__button comment__remove">удалить</button>
                                 <?php endif; ?>
                             <?php endif; ?>

@@ -47,8 +47,11 @@ $('.sidebar-menu a').each(function () {
 });
 
 // CKEDITOR.replace('editor1');
-$('#editor1').ckeditor();
-
+const ckeditor = document.querySelector('#editor1');
+if (ckeditor) {
+    var editor = CKEDITOR.replace('editor1');
+    CKFinder.setupCKEditor(editor);
+}
 $('#reset-filter').click(function () {
     $('#filter input[type=radio]').prop('checked', false);
     return false;
@@ -130,12 +133,6 @@ if (buttonMulti) {
     });
 }
 
-$('#add').on('submit', function () {
-    if (!isNumeric($('#category_id').val())) {
-        alert('Выберите категорию');
-        return false;
-    }
-});
 
 function isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);

@@ -2,10 +2,9 @@
 
 namespace app\controllers\admin;
 
-use app\models\admin\AdminModel;
 use app\models\admin\CategoryModel;
-use app\models\admin\AppModel;
-use core\App;
+use app\models\admin\FilterAttrModel;
+use app\models\admin\FilterGroupModel;
 use core\exceptions\IdException;
 use RedBeanPHP\RedException\SQL;
 
@@ -13,104 +12,58 @@ class CategoryController extends AdminController
 {
     public function indexAction(): void
     {
-        $this->setMeta('Список категорий');
+        $category_modal = new CategoryModel();
+        $categories = $category_modal->getCategories();
+        $this->setMeta('Фильтры');
+        $this->setData(compact('categories'));
     }
 
-    /**
-     * @throws IdException
-     */
-    public function deleteAction(): void
+    public function categoryDeleteAction(): void
     {
-        $category_model = new CategoryModel();
-
+        $category_modal = new CategoryModel();
         $id = $this->getRequestID();
-        $children = $category_model->getCountChildren($id);
-        $errors = '';
-
-        // есть потомки?
-        if ($children) {
-            $errors .= '<li>Удаление невозможно, в категории есть вложенные категории</li>';
-        }
-
-        $products = $category_model->getCountProducts($id);
-
-        // есть продукты?
-        if ($products) {
-            $errors .= '<li>Удаление невозможно, в категории есть товары</li>';
-        }
-
-        // ошибки есть?
-        if ($errors) {
-            $_SESSION['error'] = "<ul>$errors</ul>";
-            redirect();
-        }
-
-        $category_model->deleteCategory($id);
-        $_SESSION['success'] = 'Категория удалена';
+        $category_modal->deleteCategory($id);
+        $_SESSION['success'] = 'Удалено';
         redirect();
     }
 
-    /**
-     * @throws SQL
-     */
-    public function addAction(): void
+    public function categoryAddAction(): void
     {
         if (!empty($_POST)) {
-            $category_model = new CategoryModel();
             $data = $_POST;
-            $category_model->load($data);
-
-            // данные не валидны?
-            if (!$category_model->validate($data)) {
-                $category_model->getErrors();
+            $category_modal = new CategoryModel();
+            $category_modal->load($data);
+            if (!$category_modal->validate($data)) {
+                $category_modal->getErrors();
                 redirect();
             }
-
-            // записано в таблицу?
-            if ($id = $category_model->save('category')) {
-                $alias = AdminModel::createAlias('category', 'alias', $data['title'], $id);
-
-                $category_model->setAlias($id, $alias);
-                $_SESSION['success'] = 'Категория добавлена';
+            if ($category_modal->save('category', false)) {
+                $_SESSION['success'] = 'Атрибут добавлен';
+                redirect();
             }
-            redirect();
         }
-        $this->setMeta('Новая категория');
+        $this->setMeta('Новый фильтр');
     }
 
-    /**
-     * @throws IdException
-     * @throws SQL
-     */
-    public function editAction(): void
+    public function categoryEditAction(): void
     {
-        $category_model = new CategoryModel();
+        $category_modal = new CategoryModel();
         if (!empty($_POST)) {
             $id = $this->getRequestID(false);
             $data = $_POST;
-            $category_model->load($data);
-
-            // данные не валидны?
-            if (!$category_model->validate($data)) {
-                $category_model->getErrors();
+            $category_modal->load($data);
+            if (!$category_modal->validate($data)) {
+                $category_modal->getErrors();
                 redirect();
             }
-
-            // записано в таблицу?
-            if ($category_model->update('category', $id)) {
-                $alias = AdminModel::createAlias('category', 'alias', $data['title'], $id);
-
-                $category_model->setAlias($id, $alias);
+            if ($category_modal->update('category', $id)) {
                 $_SESSION['success'] = 'Изменения сохранены';
+                redirect();
             }
-            redirect();
         }
-
-        /** @var $id */
         $id = $this->getRequestID();
-        $category = $category_model->getCategory($id);
-        App::$app->setProperty('parent_id', $category->parent_id);
-        $this->setMeta("Редактирование категории {$category->title}");
+        $category = $category_modal->getCategory($id);
+        $this->setMeta('Редактирование атрибута');
         $this->setData(compact('category'));
     }
 }
