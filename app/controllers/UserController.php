@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use app\models\UserModel;
+use core\App;
 
 class UserController extends AppController
 {
@@ -25,10 +26,17 @@ class UserController extends AppController
                 );
 
                 // пользователь создан?
-                if ($user_modal->save('user')) {
-                    $_SESSION['success'] = 'Пользователь зарегистрирован';
+                if ($id = $user_modal->save('user')) {
+//                    debug($user_modal->attributes, '34', 1);
+                    foreach ($user_modal->attributes as $k => $v) {
+                        if ($k !== 'password') {
+                            $_SESSION['user'][$k] = $v;
+                        }
+                        $_SESSION['user']['id'] = $id;
+                    }
+                    $_SESSION['signup'] = 'Пользователь зарегистрирован';
                 } else {
-                    $_SESSION['error'] = 'Ошибка!';
+                    $_SESSION['signup-error'] = 'Ошибка!';
                 }
             }
             redirect();
@@ -43,9 +51,9 @@ class UserController extends AppController
 
             // пользователь авторизован
             if ($user->login()) {
-                $_SESSION['success'] = 'Вы успешно авторизованы';
+                $_SESSION['signup'] = 'Вы успешно авторизованы';
             } else {
-                $_SESSION['error'] = 'Логин/пароль введены неверно';
+                $_SESSION['signup-error'] = 'Логин/пароль введены неверно';
             }
             redirect();
         }
@@ -58,5 +66,22 @@ class UserController extends AppController
             unset($_SESSION['user']);
         }
         redirect();
+    }
+
+    public function viewAction(): void
+    {
+        if (!isset($_SESSION['user'])) {
+            redirect(PATH);
+        }
+    }
+
+    public function addAvatarAction(): void
+    {
+        if (isset($_GET['upload'])) {
+            $length = App::$app->getProperty('img-avatar_width');
+            $name = $_POST['name'];
+            $user_model = new UserModel();
+            $user_model->uploadImg($name, $length);
+        }
     }
 }

@@ -1,0 +1,28 @@
+/* Page */
+
+.page {
+  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+  color: #000000;
+  background-color: var(--color-grey-lightest);
+}
+
+.page__body {
+  display: grid;
+  grid-template-rows: min-content minmax(320px, 1fr) min-content;
+  max-width: 1920px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: var(--color-grey-lightest);
+
+  /* overflow-x: hidden; */
+  font-size: 1em;
+  color: var(--color-black);
+}
+
+.container__height {
+  height: 100%;
+}
+
+.main__container--index {
+  width: 100%;
+}

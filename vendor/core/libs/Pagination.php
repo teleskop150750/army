@@ -107,31 +107,79 @@ class Pagination
         $page1right = null;
 
         if ($this->currentPage > 3) {
-            $startpage = "<li><a class='nav-link' href='{$this->uri}page=1'>&laquo;</a></li>";
+            $startpage = '<li class="pagination__item">
+                <button class="pagination__button" data-page="1">
+                <svg class="pagination__button-arrow" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M18.41 16.59L13.82 12l4.59-4.59L17 6l-6 6 6 6zM6 6h2v12H6z"></path></svg>
+                </button>
+              </li>';
         }
         if ($this->currentPage > 1) {
-            $back = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage - 1) . "'>&lt;</a></li>";
+            $back = '<li class="pagination__item">
+                <button class="pagination__button" data-page="' . ($this->currentPage - 1) . '">
+                <svg class="pagination__button-arrow" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"></path></svg>
+                </button>
+              </li>';
         }
         if ($this->currentPage > 2) {
-            $page2left = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage - 2) . "'>" . ($this->currentPage - 2) . "</a></li>";
+            $page2left = '<li class="pagination__item">
+                <button class="pagination__button" data-page="' . ($this->currentPage - 2) . '">'
+                . ($this->currentPage - 2)
+                . '</button>
+              </li>';
         }
         if ($this->currentPage > 1) {
-            $page1left = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage - 1) . "'>" . ($this->currentPage - 1) . "</a></li>";
+            $page1left = '<li class="pagination__item">
+                <button class="pagination__button" data-page="' . ($this->currentPage - 1) . '">'
+                . ($this->currentPage - 1)
+                . '</button>
+              </li>';
         }
         if ($this->currentPage < $this->countPages) {
-            $page1right = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage + 1) . "'>" . ($this->currentPage + 1) . "</a></li>";
+            $page1right = '<li class="pagination__item">
+                <button class="pagination__button" data-page="' . ($this->currentPage + 1) . '">'
+                . ($this->currentPage + 1)
+                . '</button>
+              </li>';
         }
         if ($this->currentPage < ($this->countPages - 1)) {
-            $page2right = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage + 2) . "'>" . ($this->currentPage + 2) . "</a></li>";
+            $page2right = '<li class="pagination__item">
+                <button class="pagination__button" data-page="' . ($this->currentPage + 2) . '">'
+                . ($this->currentPage + 2)
+                . '</button>
+              </li>';
         }
         if ($this->currentPage < $this->countPages) {
-            $forward = "<li><a class='nav-link' href='{$this->uri}page=" . ($this->currentPage + 1) . "'>&gt;</a></li>";
+            $page2right = '<li class="pagination__item">
+                <button class="pagination__button" data-page="' . ($this->currentPage + 1) . '">
+                <svg class="pagination__button-arrow" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"></path></svg>
+                </button>
+              </li>';
         }
         if ($this->currentPage < ($this->countPages - 2)) {
-            $endpage = "<li><a class='nav-link' href='{$this->uri}page={$this->countPages}'>&raquo;</a></li>";
+            $endpage = '<li class="pagination__item">
+                <button class="pagination__button" data-page="' . $this->countPages . '">
+                <svg class="pagination__button-arrow" focusable="false" viewBox="0 0 24 24" aria-hidden="true"><path d="M5.59 7.41L10.18 12l-4.59 4.59L7 18l6-6-6-6zM16 6h2v12h-2z"></path></svg>
+                </button>
+              </li>';
         }
 
-        return '<ul class="pagination">' . $startpage . $back . $page2left . $page1left . '<li class="active"><a>' . $this->currentPage . '</a></li>' . $page1right . $page2right . $forward . $endpage . '</ul>';
+        return '<nav class="pagination">
+                    <ul class="pagination__list">'
+            . $startpage
+            . $back
+            . $page2left
+            . $page1left
+            . '<li class="pagination__item">
+                <button class="pagination__button pagination__button--active">'
+            . $this->currentPage
+            . '</button>
+              </li>'
+            . $page1right
+            . $page2right
+            . $forward
+            . $endpage
+            . '</ul>
+            </nav>';
     }
 
     public function __toString()

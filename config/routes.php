@@ -3,13 +3,13 @@
 use core\Router;
 
 // пользовательские маршруты
-Router::addRoute('^product/(?P<alias>[a-z0-9-]+)/?$', [
-    'controller' => 'Product',
+Router::addRoute('^article/(?P<alias>[a-z0-9-]+)/?$', [
+    'controller' => 'Article',
     'action' => 'view',
 ]);
 
-Router::addRoute('^category/(?P<alias>[a-z0-9-]+)/?$', [
-    'controller' => 'Category',
+Router::addRoute('^news/?$', [
+    'controller' => 'News',
     'action' => 'view',
 ]);
 

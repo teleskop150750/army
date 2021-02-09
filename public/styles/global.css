@@ -1,0 +1,36 @@
+/* Global */
+
+:root {
+  --color-white: #ffffff;
+  --color-grey-lightest: #f6f6f6;
+  --color-grey: #959595;
+  --color-grey-darker: #787878;
+  --color-black: #333333;
+  --color-red: #d81b60;
+  --color-tango: #ec6a2a;
+  --max-width: 1140px;
+  --max-width: 1360px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}

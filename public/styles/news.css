@@ -1,0 +1,154 @@
+.main {}
+
+.main__container {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  column-gap: 3rem;
+  max-width: var(--max-width);
+  padding: 5em 1rem;
+  margin: 0 auto;
+}
+
+.news-item {
+  /* display: grid;
+  grid-template-columns: 250px 5fr;
+  column-gap: 1em;
+  align-items: center; */
+  margin-bottom: 6em;
+}
+
+.news-item__header {
+  /* max-width: 700px; */
+  margin-bottom: 1em;
+}
+
+.news-item__img-link {
+  position: relative;
+  display: block;
+  padding-bottom: 50%;
+
+  /* padding-bottom: 130%; */
+}
+
+.news-item__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.news-item__title {
+  margin-bottom: 1rem;
+  font-size: 1.75em;
+  font-weight: 700;
+}
+
+.news-item__date {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.9em;
+  font-weight: 500;
+  color: var(--color-grey);
+}
+
+.news-item__text {
+  margin-bottom: 0.5em;
+  color: var(--color-grey-darker);
+}
+
+.news-item__more {
+  color: var(--color-red);
+}
+
+.news-item__more:hover {
+  color: var(--color-red);
+  text-decoration: none;
+}
+
+.news-item__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.news-item__info {
+  display: grid;
+  grid-template-columns: min-content min-content;
+  column-gap: 1.5em;
+}
+
+.news-item__see,
+.news-item__chat {
+  display: grid;
+  grid-template-columns: min-content min-content;
+  column-gap: 0.25em;
+  align-items: center;
+}
+
+.section-aside__title {
+  margin-bottom: 1em;
+  font-size: 1.3em;
+}
+
+.category__list {
+  display: grid;
+  row-gap: 0.7em;
+  padding: 0;
+  list-style: none;
+}
+
+.category__link:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
+.category__link--active {
+  font-weight: 500;
+}
+
+.pagination {
+
+}
+
+.pagination__list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(9, 45px);
+  column-gap: 0.4em;
+  padding: 0;
+}
+
+.pagination__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  color: var(--color-grey);
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 50%;
+  transition:
+          color 0.1s linear,
+          background-color 0.1s linear;
+  cursor: pointer;
+}
+
+.pagination__button-arrow {
+  height: 20px;
+  fill: var(--color-grey);
+  transition: fill 0.1s linear;
+  pointer-events: none;
+}
+
+.pagination__button--active,
+.pagination__button:hover {
+  color: var(--color-white);
+  background-color: var(--color-tango);
+}
+.pagination__button:hover  .pagination__button-arrow {
+  fill: var(--color-white);
+}

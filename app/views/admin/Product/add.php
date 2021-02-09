@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="box">
-                <form action="<?= ADMIN; ?>/product/add" method="post" data-toggle="validator">
+                <form action="<?= ADMIN; ?>/product/add" method="post" data-toggle="validator" id="add">
                     <div class="box-body">
                         <div class="form-group has-feedback">
                             <label for="title">Наименование товара</label>
@@ -77,7 +77,7 @@
                         <div class="form-group has-feedback">
                             <label for="content">Контент</label>
                             <textarea name="content" id="editor1" cols="80"
-                                      rows="10"><?php isset($_SESSION['form_data']['old_price']) ? $_SESSION['form_data']['old_price'] : null; ?></textarea>
+                                      rows="10"><?php $_SESSION['form_data']['old_price'] ?? null; ?></textarea>
                         </div>
 
                         <div class="form-group">
@@ -90,6 +90,50 @@
                             <label>
                                 <input type="checkbox" name="hit"> Хит
                             </label>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="related">Связанные товары</label>
+                            <select name="related[]" class="form-control select2" id="related" multiple></select>
+                        </div>
+
+                        <?php new \app\widgets\filter\FilterWidget(null, WIDGETS . '/filter/filter_tpl/admin_filter.php'); ?>
+
+                        <div class="form-group">
+                            <div class="col-md-4">
+                                <div class="box box-danger box-solid file-upload">
+                                    <div class="box-header">
+                                        <h3 class="box-title">Базовое изображение</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div id="single" class="btn btn-success" data-url="product/add-image"
+                                             data-name="single">Выбрать файл
+                                        </div>
+                                        <p><small>Рекомендуемые размеры: 125х200</small></p>
+                                        <div class="single"></div>
+                                    </div>
+                                    <div class="overlay">
+                                        <i class="fa fa-refresh fa-spin"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="box box-primary box-solid file-upload">
+                                    <div class="box-header">
+                                        <h3 class="box-title">Картинки галереи</h3>
+                                    </div>
+                                    <div class="box-body">
+                                        <div id="multi" class="btn btn-success" data-url="product/add-image"
+                                             data-name="multi">Выбрать файл
+                                        </div>
+                                        <p><small>Рекомендуемые размеры: 700х1000</small></p>
+                                        <div class="multi"></div>
+                                    </div>
+                                    <div class="overlay">
+                                        <i class="fa fa-refresh fa-spin"></i>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     </div>

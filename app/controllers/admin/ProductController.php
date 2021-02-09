@@ -5,6 +5,8 @@ namespace app\controllers\admin;
 use app\models\admin\AdminModel;
 use app\models\admin\ProductModel;
 use app\models\AppModel;
+use core\App;
+use core\exceptions\IdException;
 use core\libs\Pagination;
 use RedBeanPHP\R;
 use RedBeanPHP\RedException\SQL;
@@ -24,64 +26,6 @@ class ProductController extends AdminController
         $this->setData(compact('products', 'pagination', 'total'));
     }
 
-    public function addImageAction(): void
-    {
-        if (isset($_GET['upload'])) {
-            if ($_POST['name'] == 'single') {
-                $wmax = App::$app->getProperty('img_width');
-                $hmax = App::$app->getProperty('img_height');
-            } else {
-                $wmax = App::$app->getProperty('gallery_width');
-                $hmax = App::$app->getProperty('gallery_height');
-            }
-            $name = $_POST['name'];
-            $product = new Product();
-            $product->uploadImg($name, $wmax, $hmax);
-        }
-    }
-
-    /**
-     * @throws \core\exceptions\IdException
-     */
-    public function editAction(): void
-    {
-        if (!empty($_POST)) {
-            $id = $this->getRequestID(false);
-            $product_model = new ProductModel();
-            $data = $_POST;
-            $product_model->load($data);
-            $product_model->attributes['status'] = $product_model->attributes['status'] ? '1' : '0';
-            $product_model->attributes['hit'] = $product_model->attributes['hit'] ? '1' : '0';
-            $product_model->getImg();
-
-            // данные не валидны
-            if (!$product_model->validate($data)) {
-                $product_model->getErrors();
-                redirect();
-            }
-            if ($product_model->update('product', $id)) {
-                $product_model->editFilter($id, $data);
-                $product_model->editRelatedProduct($id, $data);
-                $product_model->saveGallery($id);
-                $alias = AppModel::createAlias('product', 'alias', $data['title'], $id);
-                $product = \R::load('product', $id);
-                $product->alias = $alias;
-                \R::store($product);
-                $_SESSION['success'] = 'Изменения сохранены';
-                redirect();
-            }
-        }
-
-        $id = $this->getRequestID();
-        $product = \R::load('product', $id);
-        App::$app->setProperty('parent_id', $product->category_id);
-        $filter = \R::getCol('SELECT attr_id FROM attribute_product WHERE product_id = ?', [$id]);
-        $related_product = \R::getAll("SELECT related_product.related_id, product.title FROM related_product JOIN product ON product.id = related_product.related_id WHERE related_product.product_id = ?", [$id]);
-        $gallery = \R::getCol('SELECT img FROM gallery WHERE product_id = ?', [$id]);
-        $this->setMeta("Редактирование товара {$product->title}");
-        $this->set(compact('product', 'filter', 'related_product', 'gallery'));
-    }
-
     /**
      * @throws SQL
      */
@@ -93,6 +37,7 @@ class ProductController extends AdminController
             $product_model->load($data);
             $product_model->attributes['status'] = $product_model->attributes['status'] ? '1' : '0';
             $product_model->attributes['hit'] = $product_model->attributes['hit'] ? '1' : '0';
+            $product_model->getImg();
 
             if (!$product_model->validate($data)) {
                 $product_model->getErrors();
@@ -101,41 +46,20 @@ class ProductController extends AdminController
             }
 
             if ($id = $product_model->save('product')) {
+                $product_model->saveGallery($id);
                 $alias = AdminModel::createAlias('product', 'alias', $data['title'], $id);
                 $product_model->setAliasProduct($id, $alias);
+                $product_model->editRelatedProduct($id, $data);
+                $product_model->editFilter($id, $data);
                 $_SESSION['success'] = 'Товар добавлен';
             }
             redirect();
         }
-//        if (!empty($_POST)) {
-//            $product_model = new ProductModel();
-//            $data = $_POST;
-//            $product_model->load($data);
-//            $product_model->attributes['status'] = $product_model->attributes['status'] ? '1' : '0';
-//            $product_model->attributes['hit'] = $product_model->attributes['hit'] ? '1' : '0';
-//            $product_model->getImg();
-//
-//            if (!$product_model->validate($data)) {
-//                $product_model->getErrors();
-//                $_SESSION['form_data'] = $data;
-//                redirect();
-//            }
-//
-//            if ($id = $product_model->save('product')) {
-//                $product_model->saveGallery($id);
-//                $alias = AdminModel::createAlias('product', 'alias', $data['title'], $id);
-//                $product_model->setAliasProduct($id, $alias);
-//                $product_model->editFilter($id, $data);
-//                $product_model->editRelatedProduct($id, $data);
-//                $_SESSION['success'] = 'Товар добавлен';
-//            }
-//            redirect();
-//        }
 
         $this->setMeta('Новый товар');
     }
 
-    public function relatedProductAction()
+    public function relatedProductAction(): void
     {
         /*$data = [
             'items' => [
@@ -150,9 +74,11 @@ class ProductController extends AdminController
             ]
         ];*/
 
-        $q = isset($_GET['q']) ? $_GET['q'] : '';
+        $q = $_GET['q'] ?? '';
         $data['items'] = [];
-        $products = \R::getAssoc('SELECT id, title FROM product WHERE title LIKE ? LIMIT 10', ["%{$q}%"]);
+        $products = R::getAssoc('SELECT id, title FROM product WHERE title LIKE ? LIMIT 10', ["%{$q}%"]);
+
+        // товары получены?
         if ($products) {
             $i = 0;
             foreach ($products as $id => $title) {
@@ -165,14 +91,72 @@ class ProductController extends AdminController
         die;
     }
 
-    public function deleteGalleryAction()
+    public function addImageAction(): void
     {
-        $id = isset($_POST['id']) ? $_POST['id'] : null;
-        $src = isset($_POST['src']) ? $_POST['src'] : null;
+        if (isset($_GET['upload'])) {
+            if ($_POST['name'] === 'single') {
+                $wMax = App::$app->getProperty('img_width');
+                $hMax = App::$app->getProperty('img_height');
+            } else {
+                $wMax = App::$app->getProperty('gallery_width');
+                $hMax = App::$app->getProperty('gallery_height');
+            }
+            $name = $_POST['name'];
+            $product_model = new ProductModel();
+            $product_model->uploadImg($name, $wMax, $hMax);
+        }
+    }
+
+    /**
+     * @throws IdException
+     * @throws SQL
+     */
+    public function editAction(): void
+    {
+        if (!empty($_POST)) {
+            $id = $this->getRequestID(false);
+            $product_model = new ProductModel();
+            $data = $_POST;
+            $product_model->load($data);
+            $product_model->attributes['status'] = $product_model->attributes['status'] ? '1' : '0';
+            $product_model->attributes['hit'] = $product_model->attributes['hit'] ? '1' : '0';
+            $product_model->getImg();
+            if (!$product_model->validate($data)) {
+                $product_model->getErrors();
+                redirect();
+            }
+            if ($product_model->update('product', $id)) {
+                $product_model->editFilter($id, $data);
+                $product_model->editRelatedProduct($id, $data);
+                $product_model->saveGallery($id);
+                $alias = AdminModel::createAlias('product', 'alias', $data['title'], $id);
+                $product_model->setAlias($id, $alias);
+                $_SESSION['success'] = 'Изменения сохранены';
+                redirect();
+            }
+        }
+
+        /** @var object $this */
+        $id = $this->getRequestID();
+        $product_model = new ProductModel();
+        $product = $product_model->getProduct($id);
+        App::$app->setProperty('parent_id', $product->category_id);
+        $filter = $product_model->getFilter($id);
+        $related_product = $product_model->getRelated($id);
+        $gallery = $product_model->getGallery($id);
+        $this->setMeta("Редактирование товара {$product->title}");
+        $this->setData(compact('product', 'filter', 'related_product', 'gallery'));
+    }
+
+    public function deleteGalleryAction(): void
+    {
+        $product_modal = new ProductModel();
+        $id = $_POST['id'] ?? null;
+        $src = $_POST['src'] ?? null;
         if (!$id || !$src) {
             return;
         }
-        if (\R::exec("DELETE FROM gallery WHERE product_id = ? AND img = ?", [$id, $src])) {
+        if ($product_modal->deleteGalleryImg($id, $src)) {
             @unlink(WWW . "/images/$src");
             exit('1');
         }
