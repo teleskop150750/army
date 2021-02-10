@@ -103,13 +103,13 @@ if (imgSelectButton) {
                 return false;
             }
             const img = document.querySelector('.form__img-preview');
-            img.src = '/avatars/load-avatar.jpeg';
+            img.src = '/upload/images/avatars/load-avatar.jpeg';
         },
         onComplete: function (file, response) {
             setTimeout(function () {
                 response = JSON.parse(response);
                 const img = document.querySelector('.form__img-preview');
-                img.src = '/avatars/' + response.file;
+                img.src = '/upload/images/avatars/' + response.file;
                 const input = document.querySelector('.form__file-img');
                 input.value = response.file;
             }, 0);
@@ -212,3 +212,4 @@ if (commentForm) {
     }
 })();
 
+var player = new Playerjs({replace:"video"});

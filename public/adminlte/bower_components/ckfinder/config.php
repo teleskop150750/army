@@ -25,8 +25,9 @@ $config = array();
 /*============================ Enable PHP Connector HERE ==============================*/
 // https://ckeditor.com/docs/ckfinder/ckfinder3-php/configuration.html#configuration_options_authentication
 
+session_start();
 $config['authentication'] = function () {
-    return true;
+    return (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin');
 };
 
 /*============================ License Key ============================================*/
@@ -66,7 +67,7 @@ $config['images'] = array(
 $config['backends'][] = array(
     'name'         => 'default',
     'adapter'      => 'local',
-    'baseUrl'      =>  '/public/img/',
+    'baseUrl'      =>  '/public/upload/',
 //  'root'         => '', // Can be used to explicitly set the CKFinder user files directory.
     'chmodFiles'   => 0777,
     'chmodFolders' => 0755,
@@ -92,6 +93,15 @@ $config['resourceTypes'][] = array(
     'directory'         => 'images',
     'maxSize'           => 0,
     'allowedExtensions' => 'bmp,gif,jpeg,jpg,png',
+    'deniedExtensions'  => '',
+    'backend'           => 'default'
+);
+
+$config['resourceTypes'][] = array(
+    'name'              => 'Video',
+    'directory'         => 'video',
+    'maxSize'           => '1G',
+    'allowedExtensions' => 'h264,m4v,mkv,mod,mov,mp4,mpeg,mts,webm,wmv,flv,avi',
     'deniedExtensions'  => '',
     'backend'           => 'default'
 );

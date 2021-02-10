@@ -17,7 +17,12 @@
 .header-logo__link {
   display: grid;
   grid-template-columns: min-content max-content;
+  align-items: center;
   column-gap: 0.5em;
+}
+
+.header-logo__text{
+  margin: 0;
 }
 
 .header__nav {
@@ -40,9 +45,4 @@
 
 .nav__item + .nav__item {
   margin-left: 1.5em;
-}
-
-.nav__link:hover {
-  text-decoration: none;
-  color: inherit;
 }

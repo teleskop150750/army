@@ -43,7 +43,7 @@ class ArticleModel extends AdminModel
                category.title AS cat 
         FROM article 
         JOIN category ON category.id = article.category_id 
-        ORDER BY article.date 
+        ORDER BY article.date DESC
         LIMIT $start, $perPage
         ");
     }
@@ -109,44 +109,6 @@ class ArticleModel extends AdminModel
         }
     }
 
-    /**
-     * редактировать фильтры
-     * @param int $id id товара
-     * @param array $data данные
-     */
-    public function editFilter(int $id, array $data): void
-    {
-        $filter = R::getCol('SELECT attr_id FROM attribute_product WHERE product_id = ?', [$id]);
-        // если менеджер убрал фильтры - удаляем их
-        if (empty($data['attrs']) && !empty($filter)) {
-            R::exec("DELETE FROM attribute_product WHERE product_id = ?", [$id]);
-            return;
-        }
-        // если фильтры добавляются
-        if (empty($filter) && !empty($data['attrs'])) {
-            $sql_part = '';
-            foreach ($data['attrs'] as $value) {
-                $sql_part .= "($value, $id),";
-            }
-            $sql_part = rtrim($sql_part, ',');
-            R::exec("INSERT INTO attribute_product (attr_id, product_id) VALUES $sql_part");
-            return;
-        }
-        // если изменились фильтры - удалим и запишем новые
-        if (!empty($data['attrs'])) {
-            $result = array_diff($filter, $data['attrs']);
-            // фильтры отличаются?
-            if (!$result || count($filter) !== count($data['attrs'])) {
-                R::exec("DELETE FROM attribute_product WHERE product_id = ?", [$id]);
-                $sql_part = '';
-                foreach ($data['attrs'] as $value) {
-                    $sql_part .= "($value, $id),";
-                }
-                $sql_part = rtrim($sql_part, ',');
-                R::exec("INSERT INTO attribute_product (attr_id, product_id) VALUES $sql_part");
-            }
-        }
-    }
 
     public function getImg(): void
     {
@@ -164,7 +126,7 @@ class ArticleModel extends AdminModel
                 $sql_part .= "('$v', $id),";
             }
             $sql_part = rtrim($sql_part, ',');
-            R::exec("INSERT INTO gallery (img, product_id) VALUES $sql_part");
+            R::exec("INSERT INTO gallery (img, article_id) VALUES $sql_part");
             unset($_SESSION['multi']);
         }
     }
@@ -176,13 +138,9 @@ class ArticleModel extends AdminModel
      */
     public function uploadImg($name, $wMax, $hMax): void
     {
-        $uploadDir = WWW . '/images/';
+        $uploadDir = WWW . '/upload/images/';
         $ext = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $_FILES[$name]['name'])); // расширение картинки
         $types = array("image/gif", "image/png", "image/jpeg", "image/pjpeg", "image/x-png"); // массив допустимых расширений
-        if ($_FILES[$name]['size'] > 1048576) {
-            $res = array("error" => "Ошибка! Максимальный вес файла - 1 Мб!");
-            exit(json_encode($res));
-        }
         if ($_FILES[$name]['error']) {
             $res = array("error" => "Ошибка! Возможно, файл слишком большой.");
             exit(json_encode($res));
@@ -262,14 +220,9 @@ class ArticleModel extends AdminModel
      * -----------------------------------------
      */
 
-    /**
-     * получить продукт
-     * @param int $id id продукта
-     * @return object продукт
-     */
-    public function getProduct(int $id): object
+    public function getArticle(int $id): object
     {
-        return R::load('product', $id);
+        return R::load('article', $id);
     }
 
 
@@ -285,5 +238,15 @@ class ArticleModel extends AdminModel
         $article = R::load('article', $id);
         $article->alias = $alias;
         R::store($article);
+    }
+
+    public function getGallery(int $id): ?array
+    {
+        return R::getCol('SELECT img FROM gallery WHERE article_id = ?', [$id]);
+    }
+
+    public function deleteGalleryImg(int $id, string $src)
+    {
+        return R::exec("DELETE FROM gallery WHERE article_id = ? AND img = ?", [$id, $src]);
     }
 }

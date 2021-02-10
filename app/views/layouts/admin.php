@@ -323,8 +323,9 @@
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <!-- Bootstrap 3.3.7 -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-<script src="bower_components/select2/dist/js/select2.full.js"></script>
 <script src="validator.min.js"></script>
+<script src="validator.min.js"></script>
+<script src="ajaxupload.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
 <script src="bower_components/ckeditor/ckeditor.js"></script>

@@ -15,7 +15,7 @@
     <div class="header__container">
         <div class="header-logo header__logo">
             <a href="/" class="header-logo__link">
-                <img class="header-logo__img" src="/img/logo.png" srcset="/img/logo-2x.png 2x" alt="логотип">
+                <img class="header-logo__img" src="/images/logo.png" srcset="/images/logo-2x.png 2x" alt="логотип">
                 <p class="header-logo__text">
                     Министерство обороны<br>
                     Российской Федерации<br>
@@ -55,6 +55,7 @@
 <script src="/scripts/jquery-3.5.1.min.js"></script>
 <script src="/scripts/validator.min.js"></script>
 <script src="/scripts/ajaxupload.js"></script>
+<script src="/scripts/playerjs.js"></script>
 <script src="/scripts/script.js"></script>
 </body>
 

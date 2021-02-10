@@ -63,11 +63,6 @@
   color: var(--color-red);
 }
 
-.news-item__more:hover {
-  color: var(--color-red);
-  text-decoration: none;
-}
-
 .news-item__footer {
   display: flex;
   align-items: center;
@@ -99,11 +94,6 @@
   padding: 0;
   margin: 0;
   list-style: none;
-}
-
-.category__link:hover {
-  color: inherit;
-  text-decoration: none;
 }
 
 .category__link--active {

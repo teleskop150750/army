@@ -64,7 +64,7 @@ class UserModel extends UserBaseModel
 
     public function uploadImg($name, $length): void
     {
-        $uploadDir = WWW . '/avatars/';
+        $uploadDir = WWW . '/upload/images/avatars/';
         $ext = strtolower(preg_replace("#.+\.([a-z]+)$#i", "$1", $_FILES[$name]['name'])); // расширение картинки
         $types = array("image/gif", "image/png", "image/jpeg", "image/jpeg", "image/x-png"); // массив допустимых расширений
         if ($_FILES[$name]['error']) {

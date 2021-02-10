@@ -27,6 +27,7 @@ class NewsModel extends AppModel
             (SELECT COUNT(*) FROM comments WHERE comments.article_id = article.id) AS comm
         FROM article 
         WHERE status = '1' $sql_part
+        ORDER BY article.`date` DESC
         LIMIT $start, $perPage
         ");
     }

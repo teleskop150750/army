@@ -7,7 +7,7 @@
     <article class="news-item">
         <header class="news-item__header">
             <a class="news-item__img-link" href="/article/<?= $article['alias'] ?>">
-                <img class="news-item__img" src="/img/<?= $article['img'] ?>" alt="">
+                <img class="news-item__img" src="/upload/images/<?= $article['img'] ?>" alt="">
             </a>
         </header>
         <div class="news-item__content">

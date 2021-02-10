@@ -1,109 +1,76 @@
 <?php
-/** @var object $product */
-/** @var array $filter */
+/** @var object $article */
+/** @var array $categories */
+/** @var array $gallery */
 ?>
 
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Редактирование товара <?= $product->title ?>
+        Новая статья
     </h1>
-    <ol class="breadcrumb">
-        <li><a href="<?= ADMIN ?>"><i class="fa fa-dashboard"></i> Главная</a></li>
-        <li><a href="<?= ADMIN ?>/product">Список товаров</a></li>
-        <li class="active">Редактирование</li>
-    </ol>
 </section>
-
 <!-- Main content -->
 <section class="content">
     <div class="row">
         <div class="col-md-12">
             <div class="box">
-                <form action="<?= ADMIN ?>/product/edit" method="post" data-toggle="validator" id="add">
+                <form action="<?= ADMIN ?>/article/edit " method="post" data-toggle="validator" id="add">
                     <div class="box-body">
                         <div class="form-group has-feedback">
-                            <label for="title">Наименование товара</label>
+                            <label for="title">Заголовок</label>
                             <input type="text" name="title" class="form-control" id="title"
-                                   placeholder="Наименование товара" value="<?= h($product->title) ?>" required>
+                                   placeholder="Наименование товара"
+                                   value="<?= h($article->title) ?>"
+                                   required>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         </div>
 
                         <div class="form-group">
-                            <label for="category_id">Родительская категория</label>
-                            <?php new app\widgets\menu\MenuWidget([
-                                'tpl' => WIDGETS . '/menu/menu_tpl/select.php',
-                                'container' => 'select',
-                                'cache' => 0,
-                                'cacheKey' => 'admin_select',
-                                'class' => 'form-control',
-                                'attrs' => [
-                                    'name' => 'category_id',
-                                    'id' => 'category_id',
-                                ],
-                            ]) ?>
+                            <label>Родительская категория</label>
+                            <?php foreach ($categories as $category) : ?>
+                                <div>
+                                    <label>
+                                        <input type="radio" name="category_id" required
+                                               <?= $article->category_id == $category['id'] ? 'checked' : null ?>
+                                               value="<?= $category['id'] ?>">
+                                        <?= $category['title'] ?></label>
+                                </div>
+                            <?php endforeach; ?>
                         </div>
 
                         <div class="form-group">
                             <label for="keywords">Ключевые слова</label>
                             <input type="text" name="keywords" class="form-control" id="keywords"
-                                   placeholder="Ключевые слова" value="<?= h($product->keywords) ?>">
+                                   placeholder="Ключевые слова"
+                                   value="<?= h($article->keywords) ?>">
                         </div>
 
                         <div class="form-group">
                             <label for="description">Описание</label>
                             <input type="text" name="description" class="form-control" id="description"
-                                   placeholder="Описание" value="<?= h($product->description) ?>">
+                                   placeholder="Описание"
+                                   value="<?= h($article->description) ?>">
                         </div>
 
                         <div class="form-group has-feedback">
-                            <label for="price">Цена</label>
-                            <input type="text" name="price" class="form-control" id="description" placeholder="Цена"
-                                   pattern="^[0-9.]{1,}$" value="<?= $product->price ?>" required
-                                   data-error="Допускаются цифры и десятичная точка">
-                            <div class="help-block with-errors"></div>
+                            <label for="preview">Текст превью</label>
+                            <textarea class="form-control" name="preview" cols="80" id="preview" required
+                                      rows="10"><?= h($article->preview) ?></textarea>
                         </div>
 
                         <div class="form-group has-feedback">
-                            <label for="old_price">Старая цена</label>
-                            <input type="text" name="old_price" class="form-control" id="description"
-                                   placeholder="Старая цена" pattern="^[0-9.]{1,}$" value="<?= $product->old_price ?>"
-                                   data-error="Допускаются цифры и десятичная точка">
-                            <div class="help-block with-errors"></div>
-                        </div>
-
-                        <div class="form-group has-feedback">
-                            <label for="editor1">Контент</label>
+                            <label for="content">Контент</label>
                             <textarea name="content" id="editor1" cols="80"
-                                      rows="10"><?= $product->content ?></textarea>
+                                      rows="10"><?= h($article->content) ?></textarea>
                         </div>
 
                         <div class="form-group">
                             <label>
-                                <input type="checkbox" name="status" <?= $product->status ? ' checked' : null ?>>
-                                Статус
+                                <input type="checkbox" name="status" <?= $article->status == '1' ? 'checked' : null ?>> Статус
                             </label>
                         </div>
 
-                        <div class="form-group">
-                            <label>
-                                <input type="checkbox" name="hit" <?= $product->hit ? ' checked' : null ?>> Хит
-                            </label>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="related">Связанные товары</label>
-                            <select name="related[]" class="form-control select2" id="related" multiple>
-                                <?php if (!empty($related_product)) : ?>
-                                    <?php foreach ($related_product as $item) : ?>
-                                        <option value="<?= $item['related_id'] ?>"
-                                                selected><?= $item['title'] ?></option>
-                                    <?php endforeach; ?>
-                                <?php endif; ?>
-                            </select>
-                        </div>
-
-                        <?php new app\widgets\filter\FilterWidget($filter, WIDGETS . '/filter/filter_tpl/admin_filter.php'); ?>
                         <div class="form-group">
                             <div class="col-md-4">
                                 <div class="box box-danger box-solid file-upload">
@@ -111,12 +78,11 @@
                                         <h3 class="box-title">Базовое изображение</h3>
                                     </div>
                                     <div class="box-body">
-                                        <div id="single" class="btn btn-success" data-url="product/add-image"
+                                        <div id="single" class="btn btn-success" data-url="article/add-image"
                                              data-name="single">Выбрать файл
                                         </div>
-                                        <p><small>Рекомендуемые размеры: 125х200</small></p>
                                         <div class="single">
-                                            <img src="/images/<?= $product->img ?>" alt="" style="max-height: 150px;">
+                                            <img src="/upload/images/<?= $article->img ?>" alt="" style="width: 100px;">
                                         </div>
                                     </div>
                                     <div class="overlay">
@@ -130,16 +96,15 @@
                                         <h3 class="box-title">Картинки галереи</h3>
                                     </div>
                                     <div class="box-body">
-                                        <div id="multi" class="btn btn-success" data-url="product/add-image"
+                                        <div id="multi" class="btn btn-success" data-url="article/add-image"
                                              data-name="multi">Выбрать файл
                                         </div>
-                                        <p><small>Рекомендуемые размеры: 700х1000</small></p>
                                         <div class="multi">
                                             <?php if (!empty($gallery)) : ?>
                                                 <?php foreach ($gallery as $item) : ?>
-                                                    <img src="/images/<?= $item ?>" alt=""
-                                                         style="max-height: 150px; cursor: pointer;"
-                                                         data-id="<?= $product->id ?>" data-src="<?= $item ?>"
+                                                    <img src="/upload/images/<?= $item ?>" alt=""
+                                                         style="max-height: 80px; cursor: pointer;"
+                                                         data-id="<?= $article->id ?>" data-src="<?= $item ?>"
                                                          class="del-item">
                                                 <?php endforeach; ?>
                                             <?php endif; ?>
@@ -154,10 +119,15 @@
 
                     </div>
                     <div class="box-footer">
-                        <input type="hidden" name="id" value="<?= $product->id ?>">
-                        <button type="submit" class="btn btn-success">Сохранить</button>
+                        <input type="hidden" name="id" value="<?= $article->id ?>">
+                        <button type="submit" class="btn btn-success">Изменить</button>
                     </div>
                 </form>
+                <?php
+                if (isset($_SESSION['form_data'])) {
+                    unset($_SESSION['form_data']);
+                }
+                ?>
             </div>
         </div>
     </div>

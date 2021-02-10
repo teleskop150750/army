@@ -14,7 +14,7 @@ $('.del-item').on('click', function () {
         id = $this.data('id'),
         src = $this.data('src');
     $.ajax({
-        url: adminpath + '/product/delete-gallery',
+        url: adminpath + '/article/delete-gallery',
         data: {id: id, src: src},
         type: 'POST',
         beforeSend: function () {
@@ -23,6 +23,7 @@ $('.del-item').on('click', function () {
         success: function (res) {
             setTimeout(function () {
                 $this.closest('.file-upload').find('.overlay').css({'display': 'none'});
+                console.log(res);
                 if (res == 1) {
                     $this.fadeOut();
                 }
@@ -57,27 +58,7 @@ $('#reset-filter').click(function () {
     return false;
 });
 
-$(".select2").select2({
-    placeholder: "Начните вводить наименование товара",
-    //minimumInputLength: 2,
-    cache: true,
-    ajax: {
-        url: adminpath + "/product/related-product",
-        delay: 250,
-        dataType: 'json',
-        data: function (params) {
-            return {
-                q: params.term,
-                page: params.page
-            };
-        },
-        processResults: function (data, params) {
-            return {
-                results: data.items
-            };
-        }
-    }
-});
+
 
 if ($('div').is('#single')) {
     var buttonSingle = $("#single"),
@@ -86,6 +67,7 @@ if ($('div').is('#single')) {
 }
 
 if (buttonSingle) {
+    
     new AjaxUpload(buttonSingle, {
         action: adminpath + buttonSingle.data('url') + "?upload=1",
         data: {name: buttonSingle.data('name')},
@@ -103,7 +85,7 @@ if (buttonSingle) {
                 buttonSingle.closest('.file-upload').find('.overlay').css({'display': 'none'});
 
                 response = JSON.parse(response);
-                $('.' + buttonSingle.data('name')).html('<img src="/images/' + response.file + '" style="max-height: 150px;">');
+                $('.' + buttonSingle.data('name')).html('<img src="/upload/images/' + response.file + '" style="max-height: 80px;">');
             }, 1000);
         }
     });
@@ -127,7 +109,7 @@ if (buttonMulti) {
                 buttonMulti.closest('.file-upload').find('.overlay').css({'display': 'none'});
 
                 response = JSON.parse(response);
-                $('.' + buttonMulti.data('name')).append('<img src="/images/' + response.file + '" style="max-height: 150px;">');
+                $('.' + buttonMulti.data('name')).append('<img src="/upload/images/' + response.file + '" style="max-height: 80px;">');
             }, 1000);
         }
     });

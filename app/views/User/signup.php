@@ -34,7 +34,7 @@
                         </div>
 
                         <div class="card" style="width: 18rem;">
-                            <img src="/avatars/avatar.png" class="card-img-top form__img-preview" alt="аватар" >
+                            <img src="/upload/images/avatars/avatar-default.jpg" class="card-img-top form__img-preview" alt="аватар" >
                             <div class="card-body">
                                 <h5 class="card-title">Аватар</h5>
                                 <button class="btn btn-primary form__img-select" type="button"
@@ -44,7 +44,7 @@
                                 </button>
                             </div>
                         </div>
-                        <input class="form__file-img" name="img" type="hidden" value="avatar.png">
+                        <input class="form__file-img" name="img" type="hidden" value="avatar-default.jpg">
                         <button type="submit" class="btn btn-primary my-5">Зарегистрироваться</button>
                     </form>
                 </div>

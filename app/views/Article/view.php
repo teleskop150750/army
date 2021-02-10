@@ -8,7 +8,7 @@
         <article class="article">
             <header class="article__header">
                 <div class="article__img-wrapper">
-                    <img class="article__img" src="/img/<?= $article['img'] ?>" alt="">
+                    <img class="article__img" src="/upload/images/<?= $article['img'] ?>" alt="">
                 </div>
             </header>
             <div class="article__content">
@@ -40,7 +40,7 @@
             <?php if (isset($_SESSION['user'])) : ?>
                 <div class="chat-form chat__form">
                     <div class="chat-form__avatar-wrapper">
-                        <img class="chat-form__avatar" src="/avatars/<?= $_SESSION['user']['img'] ?>" alt="аватарка">
+                        <img class="chat-form__avatar" src="/upload/images/avatars/<?= $_SESSION['user']['img'] ?>" alt="аватарка">
                         <a href="/user/view"><h3 class="chat-form__user"><?= $_SESSION['user']['login'] ?></h3></a>
                     </div>
                     <div class="chat-form__content">
@@ -64,7 +64,7 @@
 
             <?php foreach ($comments as $comment) : ?>
                 <article class="comment" data-id="<?= $comment['id'] ?>">
-                    <img class="comment__avatar" src="/avatars/<?= $comment['img'] ?>" alt="аватарка">
+                    <img class="comment__avatar" src="/upload/images/avatars/<?= $comment['img'] ?>" alt="аватарка">
                     <div class="comment__content">
                         <header class="comment__header">
                             <h3 class="comment__user">

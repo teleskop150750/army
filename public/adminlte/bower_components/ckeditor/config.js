@@ -6,6 +6,7 @@
 CKEDITOR.editorConfig = function( config ) {
 	// Define changes to default configuration here. For example:
 	config.language = 'ru';
+    config.extraPlugins = 'image2, youtube, html5video';
     config.removePlugins = 'flash, save, newpage, div, exportpdf, preview, print, selectall, forms';
 	// config.uiColor = '#AADC6E';
 };
