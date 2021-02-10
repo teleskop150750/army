@@ -49,7 +49,13 @@
 
 <footer class="footer page__footer">
     <div class="footer__container">
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Rerum, est?</p>
+        <div class="container">
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <p>Общероссийска общественная организация ветеранов ВС РФ</p>
+                </div>
+            </div>
+        </div>
     </div>
 </footer>
 <script src="/scripts/jquery-3.5.1.min.js"></script>

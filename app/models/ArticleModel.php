@@ -32,7 +32,7 @@ class ArticleModel extends AppModel
 
     public function getCategories(): array
     {
-        return R::findAll('category', 'ORDER BY id DESC');
+        return R::findAll('category', 'ORDER BY id ASC');
     }
 
     public function getComments(int $id): array

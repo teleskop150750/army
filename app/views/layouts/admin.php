@@ -324,7 +324,6 @@
 <!-- Bootstrap 3.3.7 -->
 <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="validator.min.js"></script>
-<script src="validator.min.js"></script>
 <script src="ajaxupload.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/adminlte.min.js"></script>
@@ -332,14 +331,6 @@
 <script src="bower_components/ckfinder/ckfinder.js"></script>
 <script src="bower_components/ckeditor/adapters/jquery.js"></script>
 <script src="my.js"></script>
-
-<?php
-$logs = \RedBeanPHP\R::getDatabaseAdapter()
-    ->getDatabase()
-    ->getLogger();
-
-debug($logs->grep('SELECT'));
-?>
 </body>
 
 </html>

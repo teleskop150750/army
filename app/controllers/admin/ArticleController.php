@@ -18,7 +18,7 @@ class ArticleController extends AdminController
     {
         $article_model = new ArticleModel();
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $perPage = 2;
+        $perPage = 10;
         $total = $article_model->getTotal();
         $pagination = new PaginationAdmin($page, $perPage, $total);
         $start = $pagination->getStart();

@@ -11,7 +11,6 @@ class ArticleModel extends AdminModel
     public array $attributes = [
         'title' => '',
         'alias' => '',
-        'preview' => '',
         'content' => '',
         'img' => 'article-default.jpeg',
         'category_id' => '',
@@ -23,7 +22,6 @@ class ArticleModel extends AdminModel
     public array $rules = [
         'required' => [
             ['title'],
-            ['preview'],
             ['category_id'],
         ],
         'integer' => [

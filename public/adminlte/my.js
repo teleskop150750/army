@@ -53,6 +53,7 @@ if (ckeditor) {
     var editor = CKEDITOR.replace('editor1');
     CKFinder.setupCKEditor(editor);
 }
+
 $('#reset-filter').click(function () {
     $('#filter input[type=radio]').prop('checked', false);
     return false;

@@ -19,7 +19,7 @@
                         <div class="form-group has-feedback">
                             <label for="title">Заголовок</label>
                             <input type="text" name="title" class="form-control" id="title"
-                                   placeholder="Наименование товара"
+                                   placeholder="Название статьи"
                                    value="<?php isset($_SESSION['form_data']['title']) ? h($_SESSION['form_data']['title']) : null; ?>"
                                    required>
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
@@ -52,13 +52,13 @@
                         </div>
 
                         <div class="form-group has-feedback">
-                            <label for="title">Текст превью</label>
-                            <textarea class="form-control" name="preview" cols="80" required
-                                      rows="10"><?php $_SESSION['form_data']['preview'] ?? null; ?></textarea>
+                            <label for="editor2">Файлы</label>
+                            <textarea name="content" id="editor2" cols="80"
+                                      rows="2"></textarea>
                         </div>
 
                         <div class="form-group has-feedback">
-                            <label for="content">Контент</label>
+                            <label for="editor1">Контент</label>
                             <textarea name="content" id="editor1" cols="80"
                                       rows="10"><?php $_SESSION['form_data']['content'] ?? null; ?></textarea>
                         </div>

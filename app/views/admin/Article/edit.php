@@ -54,12 +54,6 @@
                         </div>
 
                         <div class="form-group has-feedback">
-                            <label for="preview">Текст превью</label>
-                            <textarea class="form-control" name="preview" cols="80" id="preview" required
-                                      rows="10"><?= h($article->preview) ?></textarea>
-                        </div>
-
-                        <div class="form-group has-feedback">
                             <label for="content">Контент</label>
                             <textarea name="content" id="editor1" cols="80"
                                       rows="10"><?= h($article->content) ?></textarea>

@@ -21,8 +21,7 @@ class NewsModel extends AppModel
             img, 
             alias, 
             title, 
-            article.`date`, 
-            preview, 
+            article.`date`,
             views,
             (SELECT COUNT(*) FROM comments WHERE comments.article_id = article.id) AS comm
         FROM article 
@@ -34,7 +33,7 @@ class NewsModel extends AppModel
 
     public function getCategories(): array
     {
-        return R::findAll('category', 'ORDER BY id DESC');
+        return R::findAll('category', 'ORDER BY id ASC');
     }
 
     /**

@@ -21,9 +21,6 @@
                     <time datetime="<?= getArticleDateTime($article['date']) ?>" class="news-item__date">
                         <?= getArticleDate($article['date']) ?>
                     </time>
-                    <p class="news-item__text"">
-                    <?= $article['preview'] ?>
-                    </p>
 
                     <footer class="news-item__footer">
                         <a class="news-item__more" href="/article/<?= $article['alias'] ?>">читать дальше</a>
