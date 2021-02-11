@@ -28,6 +28,7 @@ class ArticleController extends AdminController
         $article_model = new ArticleModel();
         $id = $this->getRequestID();
         $article_model->deleteArticle($id);
+        $article_model->deleteGalleryAllImg($id);
         $_SESSION['success'] = 'Удалено';
         redirect();
     }
@@ -109,5 +110,33 @@ class ArticleController extends AdminController
         if (!is_null($article_model->deleteGalleryImg($id, $src))) {
             exit('1');
         }
+    }
+
+    public function deleteGalleryAllAction(): void
+    {
+        $article_model = new ArticleModel();
+        $id = $_POST['id'] ?? null;
+
+        if (!is_null($article_model->deleteGalleryAllImg($id))) {
+            redirect();
+        }
+    }
+
+    public function removeDirAction()
+    {
+        $uploadDir = WWW . '/1';
+        debug($uploadDir, '', 1);
+        if (!is_dir($uploadDir)) {
+            if ($objs = glob($uploadDir . "/*")) {
+                foreach ($objs as $obj) {
+                    is_dir($obj) ? removeDirectory($obj) : unlink($obj);
+                }
+            }
+        }
+
+        $this->layout = false;
+        $this->view = false;
+        redirect();
+        exit;
     }
 }

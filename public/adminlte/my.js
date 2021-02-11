@@ -35,7 +35,6 @@ if (buttonAddGallery) {
 }
 
 const wrapperGallery = document.querySelector('.article-gallery');
-
 if (wrapperGallery) {
     wrapperGallery.addEventListener('click', function (e) {
         if (e.target.classList.contains('remove-gallery')) {
@@ -52,9 +51,6 @@ if (wrapperGallery) {
             const id = galleryItem.dataset.id;
             const src = galleryItem.dataset.src;
             const $this = galleryItem;
-            console.log(id);
-            console.log(src);
-            console.log($this);
             $.ajax({
                 url: adminpath + '/article/delete-gallery',
                 data: {id: id, src: src},
@@ -64,6 +60,29 @@ if (wrapperGallery) {
                         if (res == 1) {
                             $this.remove();
                         }
+                    }, 1000);
+                },
+                error: function () {
+                    setTimeout(function () {
+                        alert('Ошибка');
+                    }, 1000);
+                }
+            });
+        }
+
+        if (e.target.classList.contains('remove-gallery-db-all')) {
+            var res = confirm('Подтвердите действие');
+            if (!res) {
+                return false;
+            }
+            const id = e.target.dataset.id;
+            $.ajax({
+                url: adminpath + '/article/delete-gallery-all',
+                data: {id: id},
+                type: 'POST',
+                success: function (res) {
+                    setTimeout(function () {
+
                     }, 1000);
                 },
                 error: function () {

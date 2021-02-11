@@ -27,11 +27,11 @@
                     <div class="article__slider">
                         <section class="article-slider slider">
                             <?php foreach ($gallery as $item) : ?>
-<!--                                <div class="slider__item">-->
-<!--                                    <div class="slider__item-inner">-->
-<!--                                        <img src="/upload/images/--><?//= $item['img'] ?><!--" alt="галерея">-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                <div class="slider__item">
+                                    <div class="slider__item-inner">
+                                        <img src="/upload/images/<?= $item['img'] ?>" alt="галерея">
+                                    </div>
+                                </div>
                             <?php endforeach; ?>
                         </section>
                     </div>

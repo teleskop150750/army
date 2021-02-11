@@ -45,11 +45,11 @@
 }
 
 .article__content-body figure,
-.article__content-body img {
+.article__content-body img,
+.article__content-body video {
     display: block;
     width: 100%;
     max-width: 650px;
-    margin: 1.7em;
     margin: 1.7em auto;
 }
 
@@ -185,7 +185,7 @@
 .slider {
     width: 100%;
     max-width: 650px;
-    margin: 100px auto;
+    margin: 50px auto;
 }
 
 .slick-slide {

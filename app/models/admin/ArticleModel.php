@@ -111,4 +111,9 @@ class ArticleModel extends AdminModel
     {
         return R::exec("DELETE FROM gallery WHERE article_id = ? AND img = ?", [$id, $src]);
     }
+
+    public function deleteGalleryAllImg(int $id)
+    {
+        return R::exec("DELETE FROM gallery WHERE article_id = ?", [$id]);
+    }
 }

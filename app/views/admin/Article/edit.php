@@ -58,7 +58,12 @@
                             <textarea name="content" id="editor1" cols="80"
                                       rows="10"><?= h($article->content) ?></textarea>
                         </div>
-
+                        <div class="form-group">
+                            <a href="/adminlte/bower_components/ckfinder/ckfinder.html?CKEditor=editor1&CKEditorFuncNum=3&langCode=ru">файлы</a>
+                        </div>
+                        <div class="form-group">
+                            <a href="<?= ADMIN ?>/article/remove-dir" class="btn btn-success">Очистить папку</a>
+                        </div>
                         <div class="form-group">
                             <label>
                                 <input type="checkbox" name="status" <?= $article->status == '1' ? 'checked' : null ?>>
@@ -77,6 +82,10 @@
                         <div class="form-group has-feedback article-gallery">
                             <div><label>Галерея</label></div>
                             <div>
+                                <button type="button" class="btn btn-success remove-gallery-db-all"
+                                        data-id="<?= $article->id ?>">
+                                    Очистить все
+                                </button>
                                 <button type="button" class="btn btn-success add-gallery">Добавить</button>
                             </div>
                             <?php if (!empty($gallery)) : ?>

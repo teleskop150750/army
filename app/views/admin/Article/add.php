@@ -58,6 +58,12 @@
                         </div>
 
                         <div class="form-group">
+                            <a href="/adminlte/bower_components/ckfinder/ckfinder.html?CKEditor=editor1&CKEditorFuncNum=3&langCode=ru">файлы</a>
+                        </div>
+                        <div class="form-group">
+                            <a href="<?= ADMIN ?>/article/remove-dir" class="btn btn-success">Очистить папку</a>
+                        </div>
+                        <div class="form-group">
                             <label>
                                 <input type="checkbox" name="status" checked> Статус
                             </label>
