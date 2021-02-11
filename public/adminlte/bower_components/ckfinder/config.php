@@ -115,6 +115,15 @@ $config['resourceTypes'][] = array(
     'backend'           => 'default'
 );
 
+$config['resourceTypes'][] = array(
+    'name'              => 'Upload',
+    'directory'         => 'load',
+    'maxSize'           => '6G',
+    'allowedExtensions' => '7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip',
+    'deniedExtensions'  => '',
+    'backend'           => 'default'
+);
+
 /*================================ Access Control =====================================*/
 // https://ckeditor.com/docs/ckfinder/ckfinder3-php/configuration.html#configuration_options_roleSessionVar
 

@@ -124,13 +124,13 @@ class ArticleController extends AdminController
 
     public function removeDirAction()
     {
-        $uploadDir = WWW . '/1';
-        debug($uploadDir, '', 1);
-        if (!is_dir($uploadDir)) {
-            if ($objs = glob($uploadDir . "/*")) {
-                foreach ($objs as $obj) {
-                    is_dir($obj) ? removeDirectory($obj) : unlink($obj);
-                }
+        $uploadDir = WWW . '/upload/remove';
+        $includes = glob($uploadDir . '/*');
+        foreach ($includes as $include) {
+            if (is_dir($include)) {
+                recursiveRemoveDir($include);
+            } else {
+                unlink($include);
             }
         }
 
