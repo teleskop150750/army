@@ -95,7 +95,7 @@ const imgSelectButton = document.querySelector('.form__img-select');
 if (imgSelectButton) {
     new AjaxUpload(imgSelectButton, {
         action: location.origin + '/' + imgSelectButton.dataset.url + "?upload=1",
-        data: { name: imgSelectButton.dataset.name },
+        data: {name: imgSelectButton.dataset.name},
         name: imgSelectButton.dataset.name,
         onSubmit: function (file, ext) {
             if (!(ext && /^(jpg|png|jpeg|gif)$/i.test(ext))) {
@@ -112,6 +112,33 @@ if (imgSelectButton) {
                 img.src = '/upload/images/avatars/' + response.file;
                 const input = document.querySelector('.form__file-img');
                 input.value = response.file;
+            }, 0);
+        }
+    });
+}
+
+const userImgSelectButton = document.querySelector('.user__img-select');
+if (userImgSelectButton) {
+    new AjaxUpload(userImgSelectButton, {
+        action: location.origin + '/' + userImgSelectButton.dataset.url + "?upload=1",
+        data: {
+            id: userImgSelectButton.dataset.id,
+            name: userImgSelectButton.dataset.name,
+        },
+        name: userImgSelectButton.dataset.name,
+        onSubmit: function (file, ext) {
+            if (!(ext && /^(jpg|png|jpeg|gif)$/i.test(ext))) {
+                alert('Ошибка! Разрешены только картинки');
+                return false;
+            }
+            const img = document.querySelector('.user__img-preview');
+            img.src = '/upload/images/avatars/load-avatar.jpeg';
+        },
+        onComplete: function (file, response) {
+            setTimeout(function () {
+                response = JSON.parse(response);
+                const img = document.querySelector('.user__img-preview');
+                img.src = '/upload/images/avatars/' + response.file;
             }, 0);
         }
     });
@@ -212,4 +239,36 @@ if (commentForm) {
     }
 })();
 
-var player = new Playerjs({replace:"video"});
+$('.article-slider').slick({
+    infinite: true,
+    arrows: true,
+    speed: 300,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    responsive: [
+        {
+            breakpoint: 1024,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+            }
+        },
+        {
+            breakpoint: 600,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+            }
+        },
+        {
+            breakpoint: 480,
+            settings: {
+                slidesToShow: 1,
+                slidesToScroll: 1,
+            }
+        },
+    ]
+});
+
+
+var player = new Playerjs({replace: "video"});

@@ -1,11 +1,10 @@
 <main class="main page__main">
     <div class="container-lg">
-        <div class="col-md-6">
             <div class="row mt-5">
                 <div class="col"><h1 class="mb-5">Регистрация</h1></div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col col-sm-8 col-md-5">
                     <form method="post" action="/user/signup" id="signup" role="form" data-toggle="validator">
                         <div class="form-group has-feedback">
                             <label for="login">Логин</label>
@@ -33,13 +32,14 @@
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         </div>
 
-                        <div class="card" style="width: 18rem;">
+                        <div class="card" style="width: 300px;">
                             <img src="/upload/images/avatars/avatar-default.jpg" class="card-img-top form__img-preview" alt="аватар" >
                             <div class="card-body">
                                 <h5 class="card-title">Аватар</h5>
                                 <button class="btn btn-primary form__img-select" type="button"
                                         data-url="user/add-avatar"
-                                        data-name="img">
+                                        data-name="img"
+                                        style="width: 100%;">
                                     Выбрать
                                 </button>
                             </div>
@@ -74,6 +74,5 @@
                 unset($_SESSION['form_data']);
             }
             ?>
-        </div>
     </div>
 </main>

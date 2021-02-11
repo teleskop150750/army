@@ -7,7 +7,7 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <h1>
-        Новая статья
+        Редактировать статью
     </h1>
 </section>
 <!-- Main content -->
@@ -32,7 +32,7 @@
                                 <div>
                                     <label>
                                         <input type="radio" name="category_id" required
-                                               <?= $article->category_id == $category['id'] ? 'checked' : null ?>
+                                            <?= $article->category_id == $category['id'] ? 'checked' : null ?>
                                                value="<?= $category['id'] ?>">
                                         <?= $category['title'] ?></label>
                                 </div>
@@ -61,54 +61,32 @@
 
                         <div class="form-group">
                             <label>
-                                <input type="checkbox" name="status" <?= $article->status == '1' ? 'checked' : null ?>> Статус
+                                <input type="checkbox" name="status" <?= $article->status == '1' ? 'checked' : null ?>>
+                                Статус
                             </label>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <div class="box box-danger box-solid file-upload">
-                                    <div class="box-header">
-                                        <h3 class="box-title">Базовое изображение</h3>
-                                    </div>
-                                    <div class="box-body">
-                                        <div id="single" class="btn btn-success" data-url="article/add-image"
-                                             data-name="single">Выбрать файл
-                                        </div>
-                                        <div class="single">
-                                            <img src="/upload/images/<?= $article->img ?>" alt="" style="width: 100px;">
-                                        </div>
-                                    </div>
-                                    <div class="overlay">
-                                        <i class="fa fa-refresh fa-spin"></i>
-                                    </div>
-                                </div>
+                        <div class="form-group has-feedback">
+                            <label for="img">Базовое изображение</label>
+                            <input type="text" name="img" class="form-control" id="img"
+                                   placeholder="img.jpg"
+                                   required
+                                   value="<?= $article->img ?>">
+                        </div>
+
+                        <div class="form-group has-feedback article-gallery">
+                            <div><label>Галерея</label></div>
+                            <div>
+                                <button type="button" class="btn btn-success add-gallery">Добавить</button>
                             </div>
-                            <div class="col-md-8">
-                                <div class="box box-primary box-solid file-upload">
-                                    <div class="box-header">
-                                        <h3 class="box-title">Картинки галереи</h3>
+                            <?php if (!empty($gallery)) : ?>
+                                <?php foreach ($gallery as $item) : ?>
+                                    <div class="gallery-item" data-id="<?= $article->id ?>" data-src="<?= $item ?>">
+                                        <input type="text" class="form-control" value="<?= $item ?>" required>
+                                        <button type="button" class="btn btn-flat remove-gallery-db">Удалить</button>
                                     </div>
-                                    <div class="box-body">
-                                        <div id="multi" class="btn btn-success" data-url="article/add-image"
-                                             data-name="multi">Выбрать файл
-                                        </div>
-                                        <div class="multi">
-                                            <?php if (!empty($gallery)) : ?>
-                                                <?php foreach ($gallery as $item) : ?>
-                                                    <img src="/upload/images/<?= $item ?>" alt=""
-                                                         style="max-height: 80px; cursor: pointer;"
-                                                         data-id="<?= $article->id ?>" data-src="<?= $item ?>"
-                                                         class="del-item">
-                                                <?php endforeach; ?>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                    <div class="overlay">
-                                        <i class="fa fa-refresh fa-spin"></i>
-                                    </div>
-                                </div>
-                            </div>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
                         </div>
 
                     </div>

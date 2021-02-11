@@ -18,10 +18,7 @@ abstract class Model
         Db::getInstance();
     }
 
-    /**
-     * загрузить данные для проверки
-     * @param $data
-     */
+
     public function load(array $data): void
     {
         foreach ($this->attributes as $name => $value) {
@@ -31,10 +28,7 @@ abstract class Model
         }
     }
 
-    /**
-     * @param array $data
-     * @return bool
-     */
+
     public function validate(array $data): bool
     {
         Validator::langDir(WWW . '/validator/lang');
@@ -48,13 +42,6 @@ abstract class Model
         return false;
     }
 
-    /**
-     * сохранить данные
-     * @param string $table таблица
-     * @param bool $valid
-     * @return int|string id созданной записи
-     * @throws SQLAlias
-     */
     public function save(string $table, bool $valid = true)
     {
         if ($valid) {
@@ -69,13 +56,6 @@ abstract class Model
         return R::store($tbl);
     }
 
-    /**
-     * обновить запись
-     * @param string $table таблица
-     * @param int $id id записи
-     * @return int|string id измененной записи
-     * @throws SQLAlias
-     */
     public function update(string $table, int $id)
     {
         $bean = R::load($table, $id);

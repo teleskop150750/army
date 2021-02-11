@@ -3,15 +3,10 @@
 namespace app\models;
 
 use RedBeanPHP\R;
-use RedBeanPHP\RedException\SQL;
 
 class CommentModel extends AppModel
 {
-    /**
-     * @param array $data
-     * @return mixed
-     * @throws SQL
-     */
+
     public static function addComment(array $data)
     {
         /** @var object $comment */
@@ -24,7 +19,7 @@ class CommentModel extends AppModel
 
     public function deleteComment(int $id)
     {
-        return R::exec('DELETE FROM comments WHERE id = ?', [$id]);
+        R::hunt('comments', 'id = ?', [$id]);
     }
 
     public function updateComment($id, $data): void

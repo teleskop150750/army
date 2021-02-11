@@ -11,16 +11,14 @@ class UserModel extends UserBaseModel
         'id' => '',
         'login' => '',
         'password' => '',
-        'name' => '',
         'email' => '',
-        'address' => '',
+        'img' => 'avatar-default.jpg',
         'role' => '',
     ];
 
     public array $rules = [
         'required' => [
             ['login'],
-            ['name'],
             ['email'],
             ['role'],
         ],
@@ -82,28 +80,6 @@ class UserModel extends UserBaseModel
     public function getUser(int $user_id): object
     {
         return R::load('user', $user_id);
-    }
-
-    /**
-     * получить заказы пользователя
-     * @param int $user_id id пользователя
-     * @return array|null заказы
-     */
-    public function getOrders(int $user_id): ?array
-    {
-        return R::getAll("
-            SELECT `order`.`id`, 
-                   `order`.`user_id`, 
-                   `order`.`status`, 
-                   `order`.`date`, 
-                   `order`.`update_at`, 
-                   `order`.`currency`,
-                   ROUND(SUM(`order_product`.`price`), 2) AS `sum` 
-            FROM `order`
-            JOIN `order_product` ON `order`.`id` = `order_product`.`order_id`
-            WHERE user_id = {$user_id} 
-            GROUP BY `order`.`id`, `order`.`status`
-            ORDER BY `order`.`status`, `order`.`id`");
     }
 
     /**

@@ -7,6 +7,8 @@
     <?= $this->getMeta() ?>
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" href="/styles/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="/slick/slick-theme.css" />
     <link rel="stylesheet" href="/style.css">
 </head>
 
@@ -52,13 +54,14 @@
         <div class="container">
             <div class="row">
                 <div class="col d-flex justify-content-center">
-                    <p>Общероссийска общественная организация ветеранов ВС РФ</p>
+                    <p class="mb-0">Общероссийска общественная организация ветеранов ВС РФ</p>
                 </div>
             </div>
         </div>
     </div>
 </footer>
 <script src="/scripts/jquery-3.5.1.min.js"></script>
+<script type="text/javascript" src="/slick/slick.min.js"></script>
 <script src="/scripts/validator.min.js"></script>
 <script src="/scripts/ajaxupload.js"></script>
 <script src="/scripts/playerjs.js"></script>

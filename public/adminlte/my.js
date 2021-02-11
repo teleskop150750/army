@@ -5,39 +5,6 @@ $('.delete').click(function () {
     }
 });
 
-$('.del-item').on('click', function () {
-    var res = confirm('Подтвердите действие');
-    if (!res) {
-        return false;
-    }
-    var $this = $(this),
-        id = $this.data('id'),
-        src = $this.data('src');
-    $.ajax({
-        url: adminpath + '/article/delete-gallery',
-        data: {id: id, src: src},
-        type: 'POST',
-        beforeSend: function () {
-            $this.closest('.file-upload').find('.overlay').css({'display': 'block'});
-        },
-        success: function (res) {
-            setTimeout(function () {
-                $this.closest('.file-upload').find('.overlay').css({'display': 'none'});
-                console.log(res);
-                if (res == 1) {
-                    $this.fadeOut();
-                }
-            }, 1000);
-        },
-        error: function () {
-            setTimeout(function () {
-                $this.closest('.file-upload').find('.overlay').css({'display': 'none'});
-                alert('Ошибка');
-            }, 1000);
-        }
-    });
-});
-
 $('.sidebar-menu a').each(function () {
     var location = window.location.protocol + '//' + window.location.host + window.location.pathname;
     var link = this.href;
@@ -59,64 +26,80 @@ $('#reset-filter').click(function () {
     return false;
 });
 
-
-
-if ($('div').is('#single')) {
-    var buttonSingle = $("#single"),
-        buttonMulti = $("#multi"),
-        file;
+const buttonAddGallery = document.querySelector('.add-gallery');
+if (buttonAddGallery) {
+    buttonAddGallery.addEventListener('click', function () {
+        const wrapper = document.querySelector('.article-gallery');
+        wrapper.insertAdjacentHTML('beforeend', ' <div class="gallery-item"><input type="text" name="gallery[]" placeholder="img.jpg" class="form-control" required><button type="button" class="btn btn-flat remove-gallery">Удалить</button></div>');
+    });
 }
 
-if (buttonSingle) {
-    
-    new AjaxUpload(buttonSingle, {
-        action: adminpath + buttonSingle.data('url') + "?upload=1",
-        data: {name: buttonSingle.data('name')},
-        name: buttonSingle.data('name'),
+const wrapperGallery = document.querySelector('.article-gallery');
+
+if (wrapperGallery) {
+    wrapperGallery.addEventListener('click', function (e) {
+        if (e.target.classList.contains('remove-gallery')) {
+            const galleryItem = e.target.closest('.gallery-item');
+            galleryItem.remove();
+        }
+
+        if (e.target.classList.contains('remove-gallery-db')) {
+            var res = confirm('Подтвердите действие');
+            if (!res) {
+                return false;
+            }
+            const galleryItem = e.target.closest('.gallery-item');
+            const id = galleryItem.dataset.id;
+            const src = galleryItem.dataset.src;
+            const $this = galleryItem;
+            console.log(id);
+            console.log(src);
+            console.log($this);
+            $.ajax({
+                url: adminpath + '/article/delete-gallery',
+                data: {id: id, src: src},
+                type: 'POST',
+                success: function (res) {
+                    setTimeout(function () {
+                        if (res == 1) {
+                            $this.remove();
+                        }
+                    }, 1000);
+                },
+                error: function () {
+                    setTimeout(function () {
+                        alert('Ошибка');
+                    }, 1000);
+                }
+            });
+        }
+    })
+}
+
+const avatarSelectButton = document.querySelector('.admin__avatar-select');
+if (avatarSelectButton) {
+    new AjaxUpload(avatarSelectButton, {
+        action: location.origin + '/' + avatarSelectButton.dataset.url + "?upload=1",
+        data: {
+            name: avatarSelectButton.dataset.name,
+        },
+        name: avatarSelectButton.dataset.name,
         onSubmit: function (file, ext) {
             if (!(ext && /^(jpg|png|jpeg|gif)$/i.test(ext))) {
                 alert('Ошибка! Разрешены только картинки');
                 return false;
             }
-            buttonSingle.closest('.file-upload').find('.overlay').css({'display': 'block'});
-
+            const img = document.querySelector('.admin__avatar-preview');
+            img.src = location.origin + '/upload/images/avatars/load-avatar.jpeg';
         },
         onComplete: function (file, response) {
             setTimeout(function () {
-                buttonSingle.closest('.file-upload').find('.overlay').css({'display': 'none'});
-
                 response = JSON.parse(response);
-                $('.' + buttonSingle.data('name')).html('<img src="/upload/images/' + response.file + '" style="max-height: 80px;">');
-            }, 1000);
+                const img = document.querySelector('.admin__avatar-preview');
+                img.src = location.origin + '/upload/images/avatars/' + response.file;
+                const input = document.querySelector('.admin__file-avatar');
+                input.value = response.file;
+            }, 0);
         }
     });
-}
-
-if (buttonMulti) {
-    new AjaxUpload(buttonMulti, {
-        action: adminpath + buttonMulti.data('url') + "?upload=1",
-        data: {name: buttonMulti.data('name')},
-        name: buttonMulti.data('name'),
-        onSubmit: function (file, ext) {
-            if (!(ext && /^(jpg|png|jpeg|gif)$/i.test(ext))) {
-                alert('Ошибка! Разрешены только картинки');
-                return false;
-            }
-            buttonMulti.closest('.file-upload').find('.overlay').css({'display': 'block'});
-
-        },
-        onComplete: function (file, response) {
-            setTimeout(function () {
-                buttonMulti.closest('.file-upload').find('.overlay').css({'display': 'none'});
-
-                response = JSON.parse(response);
-                $('.' + buttonMulti.data('name')).append('<img src="/upload/images/' + response.file + '" style="max-height: 80px;">');
-            }, 1000);
-        }
-    });
-}
-
-
-function isNumeric(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
 }

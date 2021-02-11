@@ -2,6 +2,7 @@
 /** @var array $article */
 /** @var array $comments */
 /** @var array $categories */
+/** @var array $gallery */
 ?>
 <div class="main__container">
     <main class="main__inner">
@@ -18,7 +19,23 @@
                 <time datetime="<?= getArticleDateTime($article['date']) ?>" class="article__date">
                     <?= getArticleDate($article['date']) ?>
                 </time>
-                <?= $article['content'] ?>
+                <div class="article__content-body">
+                    <?= $article['content'] ?>
+                </div>
+
+                <?php if (!empty($gallery)) : ?>
+                    <div class="article__slider">
+                        <section class="article-slider slider">
+                            <?php foreach ($gallery as $item) : ?>
+<!--                                <div class="slider__item">-->
+<!--                                    <div class="slider__item-inner">-->
+<!--                                        <img src="/upload/images/--><?//= $item['img'] ?><!--" alt="галерея">-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                            <?php endforeach; ?>
+                        </section>
+                    </div>
+                <?php endif; ?>
                 <footer class="article__footer">
                     <div class="article__info">
                         <span class="article__see">
@@ -40,7 +57,8 @@
             <?php if (isset($_SESSION['user'])) : ?>
                 <div class="chat-form chat__form">
                     <div class="chat-form__avatar-wrapper">
-                        <img class="chat-form__avatar" src="/upload/images/avatars/<?= $_SESSION['user']['img'] ?>" alt="аватарка">
+                        <img class="chat-form__avatar" src="/upload/images/avatars/<?= $_SESSION['user']['img'] ?>"
+                             alt="аватарка">
                         <a href="/user/view"><h3 class="chat-form__user"><?= $_SESSION['user']['login'] ?></h3></a>
                     </div>
                     <div class="chat-form__content">
@@ -77,17 +95,17 @@
                         <div class="comment__body" contenteditable="false">
                             <?= $comment['text'] ?>
                         </div>
-                        <footer class="comment__footer">
-                            <?php if (!empty($_SESSION['user'])) : ?>
-                                <?php if ((int)$comment['user_id'] === (int)$_SESSION['user']['id']) : ?>
-                                    <button class="comment__button comment__editor">редактировать</button>
-                                <?php endif; ?>
-                                <?php if ((int)$comment['user_id'] === (int)$_SESSION['user']['id'] || $_SESSION['user']['role'] === 'admin') : ?>
-                                    <button class="comment__button comment__remove">удалить</button>
-                                <?php endif; ?>
-                            <?php endif; ?>
-                        </footer>
                     </div>
+                    <footer class="comment__footer">
+                        <?php if (!empty($_SESSION['user'])) : ?>
+                            <?php if ((int)$comment['user_id'] === (int)$_SESSION['user']['id']) : ?>
+                                <button class="comment__button comment__editor">редактировать</button>
+                            <?php endif; ?>
+                            <?php if ((int)$comment['user_id'] === (int)$_SESSION['user']['id'] || $_SESSION['user']['role'] === 'admin') : ?>
+                                <button class="comment__button comment__remove">удалить</button>
+                            <?php endif; ?>
+                        <?php endif; ?>
+                    </footer>
                 </article>
             <?php endforeach; ?>
         </div>

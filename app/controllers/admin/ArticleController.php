@@ -4,12 +4,8 @@ namespace app\controllers\admin;
 
 use app\models\admin\AdminModel;
 use app\models\admin\ArticleModel;
-use app\models\admin\CategoryModel;
-use app\models\AppModel;
-use core\App;
 use core\exceptions\IdException;
 use core\libs\PaginationAdmin;
-use RedBeanPHP\R;
 use RedBeanPHP\RedException\SQL;
 
 class ArticleController extends AdminController
@@ -43,7 +39,6 @@ class ArticleController extends AdminController
             $data = $_POST;
             $article_model->load($data);
             $article_model->attributes['status'] = $article_model->attributes['status'] === 'on' ? '1' : '0';
-            $article_model->getImg();
 
             if (!$article_model->validate($data)) {
                 $article_model->getErrors();
@@ -52,7 +47,9 @@ class ArticleController extends AdminController
             }
 
             if ($id = $article_model->save('article')) {
-                $article_model->saveGallery($id);
+                if (!empty($data['gallery'])) {
+                    $article_model->saveGallery($id, $data['gallery']);
+                }
                 $alias = AdminModel::createAlias('article', 'alias', $data['title'], $id);
                 $article_model->setAlias($id, $alias);
                 $_SESSION['success'] = 'Статья добавлена';
@@ -65,26 +62,6 @@ class ArticleController extends AdminController
         $this->setData(compact('categories'));
     }
 
-    public function addImageAction(): void
-    {
-        if (isset($_GET['upload'])) {
-            if ($_POST['name'] === 'single') {
-                $wMax = App::$app->getProperty('img_width');
-                $hMax = App::$app->getProperty('img_height');
-            } else {
-                $wMax = App::$app->getProperty('gallery_width');
-                $hMax = App::$app->getProperty('gallery_height');
-            }
-            $name = $_POST['name'];
-            $article_model = new ArticleModel();
-            $article_model->uploadImg($name, $wMax, $hMax);
-        }
-    }
-
-    /**
-     * @throws IdException
-     * @throws SQL
-     */
     public function editAction(): void
     {
         $article_model = new ArticleModel();
@@ -93,7 +70,6 @@ class ArticleController extends AdminController
             $data = $_POST;
             $article_model->load($data);
             $article_model->attributes['status'] = $article_model->attributes['status'] === 'on' ? '1' : '0';
-            $article_model->getImg();
 
             if (!$article_model->validate($data)) {
                 $article_model->getErrors();
@@ -102,7 +78,9 @@ class ArticleController extends AdminController
             }
 
             if ($article_model->update('article', $id)) {
-                $article_model->saveGallery($id);
+                if (!empty($data['gallery'])) {
+                    $article_model->saveGallery($id, $data['gallery']);
+                }
                 $alias = AdminModel::createAlias('article', 'alias', $data['title'], $id);
                 $article_model->setAlias($id, $alias);
                 $_SESSION['success'] = 'Изменения сохранены';
@@ -125,14 +103,11 @@ class ArticleController extends AdminController
         $id = $_POST['id'] ?? null;
         $src = $_POST['src'] ?? null;
 
-
         if (!$id || !$src) {
             return;
         }
         if (!is_null($article_model->deleteGalleryImg($id, $src))) {
-            @unlink(WWW . "/upload/images/$src");
             exit('1');
         }
-        return;
     }
 }

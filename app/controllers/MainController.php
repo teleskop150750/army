@@ -8,6 +8,6 @@ class MainController extends AppController
     {
         $this->layout = 'main';
         $this->view = 'index';
-        $this->setMeta('Военкомат', 'Описание...', 'Ключевые слова...');
+        $this->setMeta('Военкомат', '', '');
     }
 }

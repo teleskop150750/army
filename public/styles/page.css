@@ -47,3 +47,21 @@
   font-size: 2em;
   color: var(--color-white);
 }
+
+@media (max-width: 650px) {
+  .main-index__title {
+    font-size: 2.5em;
+  }
+  .main-index__subtitle {
+    font-size: 1.5em;
+  }
+}
+
+@media (max-width: 400px) {
+  .main-index__title {
+    font-size: 2em;
+  }
+  .main-index__subtitle {
+    font-size: 1.2em;
+  }
+}

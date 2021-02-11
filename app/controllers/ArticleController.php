@@ -6,19 +6,17 @@ use app\models\ArticleModel;
 
 class ArticleController extends AppController
 {
-    /**
-     * @throws \Exception
-     */
     public function viewAction(): void
     {
         $article_model = new ArticleModel();
         $alias = $this->route['alias'];
         $article = $article_model->getArticle($alias);
-        $article_model->updateViews($article['id'], $article['views']);
+        $gallery = $article_model->getGallery($article['id']);
         $categories = $article_model->getCategories();
+        $article_model->updateViews($article['id'], $article['views']);
         $comments = $article_model->getComments($article['id']);
 
         $this->setMeta($article->title, $article->description, $article->keywords);
-        $this->setData(compact('article', 'categories', 'comments'));
+        $this->setData(compact('article', 'categories', 'comments', 'gallery'));
     }
 }

@@ -6,10 +6,6 @@ use RedBeanPHP\R;
 
 class ArticleModel extends AppModel
 {
-    /**
-     * @param string $alias
-     * @return mixed
-     */
     public function getArticle(string $alias)
     {
         $article = R::findOne('article', "alias = ? AND status = '1'", [$alias]);
@@ -23,9 +19,6 @@ class ArticleModel extends AppModel
     {
         /** @var object $article */
         $article = R::load('article', $id);
-        if (!$article) {
-            throw new \Exception('статья не найдена', 404);
-        }
         $article->views = $views +  1;
         R::store($article);
     }
@@ -33,6 +26,13 @@ class ArticleModel extends AppModel
     public function getCategories(): array
     {
         return R::findAll('category', 'ORDER BY id ASC');
+    }
+
+    public function getGallery($id): ?array
+    {
+        return R::getAll("SELECT `gallery`.*
+            FROM gallery
+            WHERE gallery.article_id = {$id}");
     }
 
     public function getComments(int $id): array

@@ -52,7 +52,7 @@
         <div class="container">
             <div class="row">
                 <div class="col d-flex justify-content-center">
-                    <p>Общероссийска общественная организация ветеранов ВС РФ</p>
+                    <p class="mb-0">Общероссийска общественная организация ветеранов ВС РФ</p>
                 </div>
             </div>
         </div>

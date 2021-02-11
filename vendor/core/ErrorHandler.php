@@ -20,27 +20,9 @@ class ErrorHandler
      */
     public function exceptionHandler(object $e): void
     {
-        $this->logErrors($e->getMessage(), $e->getFile(), $e->getLine());
         $errorNumber = $e->errorNumber ?? 'Exception';
         $this->displayError($errorNumber, $e->getMessage(), $e->getFile(), $e->getLine(), $e->getCode());
     }
-
-    /**
-     * логирование ошибок
-     * @param string $message сообщение
-     * @param string $file файл
-     * @param string $line строка
-     */
-    protected function logErrors(string $message = '', string $file = '', string $line = ''): void
-    {
-        error_log(
-            "[" . date('Y-m-d H:i:s') . "] Текст ошибки: {$message} | Файл: {$file} | Строка: {$line}
-        \n=================\n",
-            3,
-            ROOT . '/tmp/errors.log'
-        );
-    }
-
 
     /**
      * отобразить ошибки
@@ -62,7 +44,7 @@ class ErrorHandler
 
         if (DEBUG) {
             require_once WWW . '/errors/dev.php';
-        } else if ($response === 404) {
+        } elseif ($response === 404) {
             require_once WWW . '/errors/404.php';
         } else {
             require_once WWW . '/errors/prod.php';

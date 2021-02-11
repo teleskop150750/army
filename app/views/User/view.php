@@ -1,11 +1,20 @@
 <main class="main page__main">
-    <div class="container-lg">
-        <div class="col">
-            <div class="row"><h1 class="mb-5">Ваш личный кабинет</h1></div>
+    <div class="container">
+        <div class="row">
+            <div class="col mt-5"><h1 class="mb-5">Ваш личный кабинет</h1></div>
         </div>
         <div class="row">
-            <div class="col-md-4 ">
-                <img src="/avatars/<?= $_SESSION['user']['img'] ?>" class="img-thumbnail" alt="аватар">
+            <div class="col-md-4">
+                <img src="/upload/images/avatars/<?= $_SESSION['user']['img'] ?>" style="width: 100%;" class="card-img-top user__img-preview" alt="аватар" >
+                <div class="card-body p-0 mt-2">
+                    <button class="btn btn-primary user__img-select" type="button"
+                            data-url="user/edit-avatar"
+                            data-name="img"
+                            data-id="<?= $_SESSION['user']['id'] ?>"
+                            style="width: 100%;">
+                        Изменить
+                    </button>
+                </div>
             </div>
             <div class="col-md-8">
                 <div class="row">

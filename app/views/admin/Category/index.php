@@ -33,10 +33,14 @@
                                         <a href="<?= ADMIN ?>/category/category-edit?id=<?= $category['id'] ?>">
                                             <i class="fa fa-fw fa-pencil"></i>
                                         </a>
-                                        <a class="delete text-danger"
-                                           href="<?= ADMIN ?>/category/category-delete?id=<?= $category['id'] ?>">
-                                            <i class="fa fa-fw fa-close text-danger"></i>
-                                        </a>
+                                        <?php if ($category['count'] == 0) : ?>
+                                            <a class="delete text-danger"
+                                               href="<?= ADMIN ?>/category/category-delete?id=<?= $category['id'] ?>">
+                                                <i class="fa fa-fw fa-close text-danger"></i>
+                                            </a>
+                                        <?php else : ?>
+                                            <span><i class="fa fa-fw fa-close"></i></span>
+                                        <?php endif; ?>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

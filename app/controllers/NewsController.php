@@ -36,7 +36,6 @@ class NewsController extends AppController
     public function pageAction(): void
     {
         $news_model = new NewsModel();
-        $categories = $news_model->getCategories();
 
         // текущая страница
         $pageNumber = isset($_POST['page']) ? (int)$_POST['page'] : 1;
@@ -54,6 +53,6 @@ class NewsController extends AppController
         $start = $pagination->getStart();
         $articles = $news_model->getArticles($sql_part, $start, $perPage);
 
-        $this->loadView('page', compact('articles', 'categories', 'pagination'));
+        $this->loadView('page', compact('articles', 'pagination'));
     }
 }

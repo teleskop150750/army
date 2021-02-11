@@ -30,9 +30,9 @@
                             <?php foreach ($categories as $category) : ?>
                                 <div>
                                     <label>
-                                    <input type="radio" name="category_id" required
-                                    value="<?= $category['id'] ?>">
-                                    <?= $category['title'] ?></label>
+                                        <input type="radio" name="category_id" required
+                                               value="<?= $category['id'] ?>">
+                                        <?= $category['title'] ?></label>
                                 </div>
                             <?php endforeach; ?>
                         </div>
@@ -52,12 +52,6 @@
                         </div>
 
                         <div class="form-group has-feedback">
-                            <label for="editor2">Файлы</label>
-                            <textarea name="content" id="editor2" cols="80"
-                                      rows="2"></textarea>
-                        </div>
-
-                        <div class="form-group has-feedback">
                             <label for="editor1">Контент</label>
                             <textarea name="content" id="editor1" cols="80"
                                       rows="10"><?php $_SESSION['form_data']['content'] ?? null; ?></textarea>
@@ -69,38 +63,18 @@
                             </label>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-4">
-                                <div class="box box-danger box-solid file-upload">
-                                    <div class="box-header">
-                                        <h3 class="box-title">Базовое изображение</h3>
-                                    </div>
-                                    <div class="box-body">
-                                        <div id="single" class="btn btn-success" data-url="article/add-image"
-                                             data-name="single">Выбрать файл
-                                        </div>
-                                        <div class="single"></div>
-                                    </div>
-                                    <div class="overlay">
-                                        <i class="fa fa-refresh fa-spin"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="box box-primary box-solid file-upload">
-                                    <div class="box-header">
-                                        <h3 class="box-title">Картинки галереи</h3>
-                                    </div>
-                                    <div class="box-body">
-                                        <div id="multi" class="btn btn-success" data-url="article/add-image"
-                                             data-name="multi">Выбрать файл
-                                        </div>
-                                        <div class="multi"></div>
-                                    </div>
-                                    <div class="overlay">
-                                        <i class="fa fa-refresh fa-spin"></i>
-                                    </div>
-                                </div>
+                        <div class="form-group has-feedback">
+                            <label for="img">Базовое изображение</label>
+                            <input type="text" name="img" class="form-control" id="img"
+                                   placeholder="img.jpg"
+                                   required
+                                   value="article-default.jpeg">
+                        </div>
+
+                        <div class="form-group has-feedback article-gallery">
+                            <div><label>Галерея</label></div>
+                            <div>
+                                <button type="button" class="btn btn-success add-gallery">Добавить</button>
                             </div>
                         </div>
 

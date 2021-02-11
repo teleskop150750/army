@@ -20,17 +20,8 @@ class AdminController extends AppBaseController
         if ($route['action'] !== 'login-admin' && !UserModel::isAdmin()) {
             redirect(ADMIN . '/user/login-admin'); // UserController::loginAdminAction
         }
-
-        new AppModel();
     }
 
-    /**
-     * получить id из запроса
-     * @param bool $get это get
-     * @param string $id имя
-     * @return int id
-     * @throws IdException
-     */
     public function getRequestID($get = true, $id = 'id'): int
     {
         if ($get) {

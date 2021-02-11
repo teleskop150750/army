@@ -3,9 +3,8 @@
 namespace app\controllers\admin;
 
 use app\models\admin\UserModel;
-use app\models\base\UserBaseModel;
 use core\exceptions\IdException;
-use core\libs\Pagination;
+use core\libs\PaginationAdmin;
 use RedBeanPHP\RedException\SQL;
 
 class UserController extends AdminController
@@ -15,9 +14,9 @@ class UserController extends AdminController
         $user_model = new UserModel();
 
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-        $perPage = 3;
+        $perPage = 15;
         $total = $user_model->getTotal();
-        $pagination = new Pagination($page, $perPage, $total);
+        $pagination = new PaginationAdmin($page, $perPage, $total);
         $start = $pagination->getStart();
 
         $users = $user_model->getUsers($start, $perPage);
@@ -25,14 +24,6 @@ class UserController extends AdminController
         $this->setData(compact('users', 'pagination', 'total'));
     }
 
-    public function addAction(): void
-    {
-        $this->setMeta('Новый пользователь');
-    }
-
-    /**
-     * @throws SQL|IdException
-     */
     public function editAction(): void
     {
         $user_model = new UserModel();
@@ -68,10 +59,8 @@ class UserController extends AdminController
         $user_id = $this->getRequestID();
         $user = $user_model->getUser($user_id);
 
-        $orders = $user_model->getOrders($user_id);
-
         $this->setMeta('Редактирование профиля пользователя');
-        $this->setData(compact('user', 'orders'));
+        $this->setData(compact('user'));
     }
 
     public function loginAdminAction(): void
@@ -85,9 +74,6 @@ class UserController extends AdminController
                 $_SESSION['error'] = 'Логин/пароль введены неверно';
                 redirect();
             }
-            // if (UserModel::isAdmin()) {
-            // } else {
-            // }
         }
         $this->layout = 'login';
     }

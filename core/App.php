@@ -28,7 +28,7 @@ class App
      */
     protected function setParams(): void
     {
-        $params = require_once CONF . '/params.php';
+        $params = require CONF . '/params.php';
 
         // парамтеры не пустые?
         if (!empty($params)) {

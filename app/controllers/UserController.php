@@ -27,7 +27,6 @@ class UserController extends AppController
 
                 // пользователь создан?
                 if ($id = $user_modal->save('user')) {
-//                    debug($user_modal->attributes, '34', 1);
                     foreach ($user_modal->attributes as $k => $v) {
                         if ($k !== 'password') {
                             $_SESSION['user'][$k] = $v;
@@ -73,6 +72,8 @@ class UserController extends AppController
         if (!isset($_SESSION['user'])) {
             redirect(PATH);
         }
+
+        $this->setMeta('Личный кабинет');
     }
 
     public function addAvatarAction(): void
@@ -82,6 +83,17 @@ class UserController extends AppController
             $name = $_POST['name'];
             $user_model = new UserModel();
             $user_model->uploadImg($name, $length);
+        }
+    }
+
+    public function editAvatarAction(): void
+    {
+        if (isset($_GET['upload'])) {
+            $length = App::$app->getProperty('img-avatar_width');
+            $name = $_POST['name'];
+            $id = $_POST['id'];
+            $user_model = new UserModel();
+            $user_model->uploadImgEdit($name, $length, $id);
         }
     }
 }

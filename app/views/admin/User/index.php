@@ -13,14 +13,6 @@ use core\libs\Pagination;
     <h1>
         Список пользователей
     </h1>
-    <ol class="breadcrumb">
-        <li>
-            <a href="<?= ADMIN ?>">
-                <i class="fa fa-dashboard"></i> Главная
-            </a>
-        </li>
-        <li class="active">Список пользователей</li>
-    </ol>
 </section>
 
 <!-- Main content -->
@@ -36,7 +28,6 @@ use core\libs\Pagination;
                                 <th>ID</th>
                                 <th>Логин</th>
                                 <th>Email</th>
-                                <th>Имя</th>
                                 <th>Роль</th>
                                 <th>Действия</th>
                             </tr>
@@ -46,7 +37,6 @@ use core\libs\Pagination;
                                 <td><?= $user->id ?></td>
                                 <td><?= $user->login ?></td>
                                 <td><?= $user->email ?></td>
-                                <td><?= $user->name ?></td>
                                 <td><?= $user->role ?></td>
                                 <td>
                                     <a href="<?= ADMIN ?>/user/edit?id=<?= $user->id ?>">

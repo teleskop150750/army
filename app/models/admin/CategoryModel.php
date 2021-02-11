@@ -2,7 +2,6 @@
 
 namespace app\models\admin;
 
-use RedBeanPHP\OODBBean;
 use RedBeanPHP\R;
 
 class CategoryModel extends AdminModel
@@ -20,8 +19,10 @@ class CategoryModel extends AdminModel
     public function getCategories(): ?array
     {
         return R::getAll("
-            SELECT category.*
-            FROM category");
+            SELECT category.*,
+                   (SELECT COUNT(*) FROM article WHERE article.category_id = category.id) AS count
+            FROM category
+            ");
     }
 
     public function getCategory(int $id): object

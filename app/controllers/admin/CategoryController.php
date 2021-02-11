@@ -5,8 +5,6 @@ namespace app\controllers\admin;
 use app\models\admin\CategoryModel;
 use app\models\admin\FilterAttrModel;
 use app\models\admin\FilterGroupModel;
-use core\exceptions\IdException;
-use RedBeanPHP\RedException\SQL;
 
 class CategoryController extends AdminController
 {

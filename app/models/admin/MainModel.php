@@ -2,14 +2,13 @@
 
 namespace app\models\admin;
 
-use app\models\base\AppBaseModel;
 use RedBeanPHP\R;
 
 class MainModel extends AdminModel
 {
     public function getCountArticles(): int
     {
-        return R::count('article', "status = '1'");
+        return R::count('article');
     }
 
     public function getCountUsers(): int

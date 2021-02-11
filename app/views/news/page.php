@@ -3,24 +3,25 @@
 /** @var array $categories */
 /** @var core\libs\Pagination $pagination */
 ?>
-<?php foreach ($articles as $article) : ?>
-    <article class="news-item">
-        <header class="news-item__header">
-            <a class="news-item__img-link" href="/article/<?= $article['alias'] ?>">
-                <img class="news-item__img" src="/upload/images/<?= $article['img'] ?>" alt="">
-            </a>
-        </header>
-        <div class="news-item__content">
-            <h3 class="news-item__title">
-                <?= $article['title'] ?>
-            </h3>
-            <time datetime="<?= getArticleDateTime($article['date']) ?>" class="news-item__date">
-                <?= getArticleDate($article['date']) ?>
-            </time>
+<div class="articles">
+    <?php foreach ($articles as $article) : ?>
+        <article class="news-item">
+            <header class="news-item__header">
+                <a class="news-item__img-link" href="/article/<?= $article['alias'] ?>">
+                    <img class="news-item__img" src="/upload/images/<?= $article['img'] ?>" alt="">
+                </a>
+            </header>
+            <div class="news-item__content">
+                <h3 class="news-item__title">
+                    <?= $article['title'] ?>
+                </h3>
+                <time datetime="<?= getArticleDateTime($article['date']) ?>" class="news-item__date">
+                    <?= getArticleDate($article['date']) ?>
+                </time>
 
-            <footer class="news-item__footer">
-                <a class="news-item__more" href="/article/<?= $article['alias'] ?>">читать дальше</a>
-                <div class="news-item__info">
+                <footer class="news-item__footer">
+                    <a class="news-item__more" href="/article/<?= $article['alias'] ?>">читать дальше</a>
+                    <div class="news-item__info">
                 <span class="news-item__see">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye"
                        viewBox="0 0 16 16">
@@ -30,7 +31,7 @@
                   </svg>
                   <?= $article['views'] ?>
                 </span>
-                    <span class="news-item__chat">
+                        <span class="news-item__chat">
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat"
                        viewBox="0 0 16 16">
                     <path
@@ -38,12 +39,12 @@
                   </svg>
                       <?= $article['comm'] ?>
                 </span>
-                </div>
-            </footer>
-        </div>
-    </article>
-<?php endforeach; ?>
-
+                    </div>
+                </footer>
+            </div>
+        </article>
+    <?php endforeach; ?>
+</div>
 <?php if ($pagination->countPages > 1) : ?>
     <?= $pagination ?>
 <?php endif; ?>
