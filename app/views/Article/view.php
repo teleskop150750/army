@@ -24,13 +24,11 @@
                 </div>
 
                 <?php if (!empty($gallery)) : ?>
-                    <div class="article__slider">
-                        <section class="article-slider slider">
+                    <div class="slider-wrapper">
+                        <section class="gallery-slider slider">
                             <?php foreach ($gallery as $item) : ?>
-                                <div class="slider__item">
-                                    <div class="slider__item-inner">
-                                        <img src="/upload/images/<?= $item['img'] ?>" alt="галерея">
-                                    </div>
+                                <div class="slide__item">
+                                    <img class="slide__item-img" src="/upload/images/<?= $item['img'] ?>" alt="">
                                 </div>
                             <?php endforeach; ?>
                         </section>

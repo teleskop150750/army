@@ -7,6 +7,8 @@
     <?= $this->getMeta() ?>
     <link rel="shortcut icon" href="/favicon.png" type="image/png">
     <link rel="stylesheet" href="/styles/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/slick/slick.css" />
+    <link rel="stylesheet" type="text/css" href="/slick/slick-theme.css" />
     <link rel="stylesheet" href="/style.css">
 </head>
 
@@ -59,9 +61,7 @@
     </div>
 </footer>
 <script src="/scripts/jquery-3.5.1.min.js"></script>
-<script src="/scripts/validator.min.js"></script>
-<script src="/scripts/ajaxupload.js"></script>
-<script src="/scripts/playerjs.js"></script>
+<script type="text/javascript" src="/slick/slick.min.js"></script>
 <script src="/scripts/script.js"></script>
 </body>
 

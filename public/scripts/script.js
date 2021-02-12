@@ -239,36 +239,24 @@ if (commentForm) {
     }
 })();
 
-$('.article-slider').slick({
+$(".gallery-slider").slick({
     infinite: true,
-    arrows: true,
-    speed: 300,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    responsive: [
-        {
-            breakpoint: 1024,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-            }
-        },
-        {
-            breakpoint: 600,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-            }
-        },
-        {
-            breakpoint: 480,
-            settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1,
-            }
-        },
-    ]
+    centerPadding: '10px'
 });
 
+$('.slider-main').slick({
+    infinite: false,
+    centerPadding: '0px',
+    autoplay: true,
+    autoplaySpeed: 4000,
+    responsive: [
+        {
+            breakpoint: 500,
+            settings: {
+                arrows: false,
+            },
+        },
+    ],
+});
 
 var player = new Playerjs({replace: "video"});
