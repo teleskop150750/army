@@ -13,7 +13,7 @@
             </header>
             <div class="news-item__content">
                 <h3 class="news-item__title">
-                    <?= $article['title'] ?>
+                    <?= h($article['title']) ?>
                 </h3>
                 <time datetime="<?= getArticleDateTime($article['date']) ?>" class="news-item__date">
                     <?= getArticleDate($article['date']) ?>

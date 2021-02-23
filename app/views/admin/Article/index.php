@@ -32,8 +32,8 @@
                             <?php foreach ($articles as $article) : ?>
                                 <tr>
                                     <td><?= $article['id'] ?></td>
-                                    <td><?= $article['cat'] ?></td>
-                                    <td><?= $article['title'] ?></td>
+                                    <td><?= h($article['cat']) ?></td>
+                                    <td><?= h($article['title']) ?></td>
                                     <td><?= $article['status'] ? 'On' : 'Off' ?></td>
                                     <td>
                                         <a href="<?= ADMIN ?>/article/edit?id=<?= $article['id'] ?>">

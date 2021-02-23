@@ -19,7 +19,7 @@
                         <div class="form-group has-feedback">
                             <label for="value">Наименование</label>
                             <input type="text" name="title" class="form-control" id="value" placeholder="Наименование"
-                                   required value="<?= h($category->title); ?>">
+                                   required value="<?= h($category->title) ?>">
                             <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
                         </div>
                     </div>

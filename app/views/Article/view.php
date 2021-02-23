@@ -14,13 +14,13 @@
             </header>
             <div class="article__content">
                 <h3 class="article__title">
-                    <?= $article['title'] ?>
+                    <?= h($article['title']) ?>
                 </h3>
                 <time datetime="<?= getArticleDateTime($article['date']) ?>" class="article__date">
                     <?= getArticleDate($article['date']) ?>
                 </time>
                 <div class="article__content-body">
-                    <?= $article['content'] ?>
+                    <?= h($article['content']) ?>
                 </div>
 
                 <?php if (!empty($gallery)) : ?>
@@ -57,7 +57,7 @@
                     <div class="chat-form__avatar-wrapper">
                         <img class="chat-form__avatar" src="/upload/images/avatars/<?= $_SESSION['user']['img'] ?>"
                              alt="аватарка">
-                        <a href="/user/view"><h3 class="chat-form__user"><?= $_SESSION['user']['login'] ?></h3></a>
+                        <a href="/user/view"><h3 class="chat-form__user"><?= h($_SESSION['user']['login']) ?></h3></a>
                     </div>
                     <div class="chat-form__content">
                         <form class="chat-form__inner chat-submit__form" action="/comment/add-comment" method="post">
@@ -84,14 +84,14 @@
                     <div class="comment__content">
                         <header class="comment__header">
                             <h3 class="comment__user">
-                                <?= $comment['login'] ?>
+                                <?= h($comment['login']) ?>
                             </h3>
                             <time datetime="<?= getArticleDateTime($comment['date']) ?>" class="article__date">
                                 <?= getArticleDate($comment['date']) ?>
                             </time>
                         </header>
                         <div class="comment__body" contenteditable="false">
-                            <?= $comment['text'] ?>
+                            <?= h($comment['text']) ?>
                         </div>
                     </div>
                     <footer class="comment__footer">
@@ -116,7 +116,7 @@
                     <li class="category__item">
                         <a class="category__link" href="/news/<?= $category['alias'] ?>"
                            data-id="<?= $category['id'] ?>">
-                            <?= $category['title'] ?>
+                            <?= h($category['title']) ?>
                         </a>
                     </li>
                 <?php endforeach; ?>

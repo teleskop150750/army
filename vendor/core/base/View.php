@@ -55,6 +55,7 @@ class View
     public function render(array $data = []): void
     {
         extract($data, EXTR_OVERWRITE);
+        $this->prefix = str_replace('\\', '/', $this->prefix);
         $viewFile = APP . "/views/{$this->prefix}{$this->controller}/{$this->view}.php";
 
         // вид существует?

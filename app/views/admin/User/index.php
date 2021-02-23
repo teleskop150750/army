@@ -35,8 +35,8 @@ use core\libs\Pagination;
                             <tbody>
                             <?php foreach ($users as $user) : ?>
                                 <td><?= $user->id ?></td>
-                                <td><?= $user->login ?></td>
-                                <td><?= $user->email ?></td>
+                                <td><?= h($user->login) ?></td>
+                                <td><?= ($user->email) ?></td>
                                 <td><?= $user->role ?></td>
                                 <td>
                                     <a href="<?= ADMIN ?>/user/edit?id=<?= $user->id ?>">

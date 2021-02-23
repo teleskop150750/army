@@ -28,7 +28,7 @@
                             <tbody>
                             <?php foreach ($categories as $category) : ?>
                                 <tr>
-                                    <td><?= $category['title'] ?></td>
+                                    <td><?= h($category['title']) ?></td>
                                     <td>
                                         <a href="<?= ADMIN ?>/category/category-edit?id=<?= $category['id'] ?>">
                                             <i class="fa fa-fw fa-pencil"></i>
